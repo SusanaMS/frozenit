@@ -1,5 +1,5 @@
-const express = require("express");
-const dotenv = require('dotenv');
+import express from 'express';
+import dotenv from 'dotenv';
 
 // Init express
 const app = express();
@@ -17,5 +17,3 @@ app.get('/', (req, res) => {
 // start  server
 app.listen(port, () =>
     console.log(`Running on port ${port}!`));
-
-module.exports = app;
