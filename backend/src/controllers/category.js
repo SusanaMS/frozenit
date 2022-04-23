@@ -7,7 +7,7 @@ class CategoryController {
     // en caso de que el array devuelto no tenga contenido arrojamos una excepction
     if (!categoryList.length) {
       res.status(400).send({
-        message: "No se han encotrado comidas",
+        message: "No se han encotrado categorias",
       });
     }
     // devolvemos la lista sin los metadatatos
