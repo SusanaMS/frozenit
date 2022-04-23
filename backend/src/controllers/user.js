@@ -7,7 +7,9 @@ class UserController {
         let userList = await UserModel.find();
         // en caso de que el array devuelto no tenga contenido arrojamos una excepction
         if (!userList.length) {
-            throw new EndPointNotFoundException(404, 'No se han encontrado usuarios');
+            res.status(400).send({
+                message: 'No se han encontrado usuarios'
+            });
         }
         // devolvemos la lista sin los metadatatos
         res.send(userList[0]);
