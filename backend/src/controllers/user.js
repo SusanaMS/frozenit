@@ -1,4 +1,8 @@
 import { validationResult } from "express-validator";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+
+dotenv.config();
 
 import { UserModel } from "../models/user.js";
 
@@ -54,7 +58,13 @@ class UserController {
       return;
     }
 
-    res.send(userNoPass);
+    // una vez confirmado el login generamos el toke JWT
+    const secret = process.env.JWT_SECRET || "";
+    const token = jwt.sign({ user_id: userNoPass.email.toString() }, secret, {
+      expiresIn: process.env.JWT_EXPIRES || "24h",
+    });
+
+    res.send({ ...userNoPass, token });
   };
 
   static checkValidation = (req) => {
