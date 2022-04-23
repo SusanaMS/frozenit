@@ -34,11 +34,15 @@ class UserController {
   };
 
   static login = async (req, res, next) => {
-    console.log("REQQQQ:", req.body.email);
-    this.checkValidation(req);
+    console.log("login:", req.body.email);
+    const isReqValid = this.checkValidation(req, res);
+
+    if (isReqValid != null) {
+      res.status(404).json({ error: isReqValid });
+      return;
+    }
 
     const { email, password } = req.body;
-
     const user = await UserModel.findOne({ email });
 
     console.log(user);
@@ -67,10 +71,11 @@ class UserController {
     res.send({ ...userNoPass, token });
   };
 
-  static checkValidation = (req) => {
+  static checkValidation = (req, res) => {
     const result = validationResult(req).formatWith(errorFormatter);
     if (!result.isEmpty()) {
       console.error({ errors: result.array() });
+      return result.array().toString();
     }
   };
 }
