@@ -20,7 +20,7 @@ class Pool {
     checkConnection() {
         this.db.getConnection((err, connection) => {
             if (connection) {
-                console.error('Conectado a la BBDD');
+                console.log('Conectado a la BBDD');
                 connection.release();
                 // realizamos una query de testeo
                 this.queryHandler('SELECT "CONEXION OK!!"').then(r => console.log(r))
