@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 // para comprobar la conectividad a la BD (side effects)
 import "./db/connection.js";
 
+import {userEndPoint} from "./endpoints/user.js";
+
 // Init express
 const app = express();
 
@@ -20,6 +22,9 @@ const port = Number(process.env.PORT || 3331);
 app.get('/hello', (req, res) => {
     res.send('Hello World!')
 })
+
+// añadimos los endpoint de usuario
+app.use(`/api/v1/users`, userEndPoint);
 
 // Arrancamos el servidor ecuchando por el puerto antes indicado
 app.listen(port, () =>
