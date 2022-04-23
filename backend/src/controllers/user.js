@@ -1,4 +1,4 @@
-import {UserModel} from "../models/users.js";
+import {UserModel} from "../models/user.js";
 import {EndPointNotFoundException} from "../exceptions/EndPointNotFoundException.js";
 
 class UserController {
