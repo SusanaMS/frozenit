@@ -1,5 +1,4 @@
 import {UserModel} from "../models/user.js";
-import {EndPointNotFoundException} from "../exceptions/EndPointNotFoundException.js";
 
 class UserController {
     static getAllUsers = async (req, res, next) => {

@@ -9,6 +9,7 @@ import "./db/connection.js";
 import {EndPointNotFoundException} from "./exceptions/EndPointNotFoundException.js";
 
 import {userEndPoint} from "./endpoints/user.js";
+import {foodEndPoint} from "./endpoints/food.js";
 
 // Init express
 const app = express();
@@ -24,8 +25,9 @@ app.get('/hello', (req, res) => {
     res.send('Hello World!')
 })
 
-// añadimos los endpoint de usuario
+// añadimos los endpoint
 app.use(`/api/v1/users`, userEndPoint);
+app.use(`/api/v1/foods`, foodEndPoint);
 
 // controlamos los posibles 404
 app.all('*', (req, res, next) => {
