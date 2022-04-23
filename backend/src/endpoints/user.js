@@ -1,7 +1,7 @@
 import { Router as EndPointRouter } from "express";
 import { UserController } from "../controllers/user.js";
 import { auth } from "../middleware/auth.js";
-import { validateLogin } from "../middleware/validators.js";
+import { validateLogin, validateSignUp } from "../middleware/validators.js";
 // https://expressjs.com/es/api.html#express.router
 const userEndPoint = EndPointRouter({ caseSensitive: true });
 
@@ -11,5 +11,7 @@ userEndPoint.get("/all/", auth(), UserController.getAllUsers);
 userEndPoint.get("/email/:email", UserController.getUserByEmail);
 
 userEndPoint.post("/login", validateLogin, UserController.login);
+
+userEndPoint.post("/signup", validateSignUp, UserController.signUp);
 
 export { userEndPoint };

@@ -1,34 +1,57 @@
-import * as queryHandler from  "../db/connection.js";
-import {colValueBinder} from "../db/utils.js";
+import * as queryHandler from "../db/connection.js";
+import { colValueBinder } from "../db/utils.js";
 
 class UserModel {
-    static tableName = 'users';
+  static tableName = "users";
 
-    static find = async (params = {}) => {
-        let sql = `SELECT * FROM ${this.tableName}`;
+  static find = async (params = {}) => {
+    let sql = `SELECT * FROM ${this.tableName}`;
 
-        console.log(sql);
-        return queryHandler.default(sql, null);
+    console.log(sql);
+    return queryHandler.default(sql, null);
+  };
+
+  static findOne = async (params) => {
+    // https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+    // permite desempacar valores de arreglos o propiedades de objetos en distintas variables.
+    const { colString, values } = colValueBinder(params);
+
+    if (colString == null) {
+      // TODO: salida erronea, trasmitir mensaje
+      return [];
     }
 
-    static findOne = async (params) => {
-        // https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-        // permite desempacar valores de arreglos o propiedades de objetos en distintas variables.
-        const { colString, values } = colValueBinder(params)
+    const sql = `SELECT * FROM ${this.tableName} WHERE ${colString}`;
 
-        if (colString == null  ){
-            // TODO: salida erronea, trasmitir mensaje
-            return []
-        }
+    // pasamos el SQL con el BIND a los valores
+    const result = await queryHandler.default(sql, [...values]);
 
-        const sql = `SELECT * FROM ${this.tableName} WHERE ${colString}`;
+    // return back the first row (user)
+    return result[0];
+  };
 
-        // pasamos el SQL con el BIND a los valores
-        const result = await queryHandler.default(sql, [...values]);
+  static insert = async ({
+    email,
+    password,
+    username,
+    surname,
+    phone,
+    isAdmin = 0,
+  }) => {
+    const sql = `INSERT INTO ${this.tableName}
+        (email, pass, username, surname,  phone, is_admin) VALUES (?,?,?,?,?,?)`;
 
-        // return back the first row (user)
-        return result[0];
-    }
+    const result = await queryHandler.default(sql, [
+      email,
+      password,
+      username,
+      surname,
+      phone,
+      isAdmin,
+    ]);
+
+    return result;
+  };
 }
 
-export { UserModel }
+export { UserModel };

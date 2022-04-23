@@ -33,6 +33,28 @@ class UserController {
     res.send(userWithoutPassword);
   };
 
+  static signUp = async (req, res, next) => {
+    const isReqValid = this.checkValidation(req);
+
+    if (isReqValid != null) {
+      res.status(404).json({ error: isReqValid });
+      return;
+    }
+    //TODO: hash de password
+    console.log("req.body:", req.body);
+
+    const result = await UserModel.insert(req.body);
+    console.log("signup result", result);
+
+    if (!result[0].affectedRows) {
+      res.status(404).json({ error: "error en signup" });
+      console.error("error en signup");
+      return;
+    }
+
+    res.status(201).send("SignUp correcto!");
+  };
+
   static login = async (req, res, next) => {
     console.log("login:", req.body.email);
     const isReqValid = this.checkValidation(req, res);
