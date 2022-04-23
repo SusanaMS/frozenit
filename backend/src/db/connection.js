@@ -23,9 +23,7 @@ class Pool {
                 console.error('Conectado a la BBDD');
                 connection.release();
                 // realizamos una query de testeo
-                connection.query({ sql: 'select "CONECTADA!"', rowsAsArray: true }, function(err, results, fields) {
-                    console.log(results)
-                });
+                this.queryHandler('SELECT "CONEXION OK!!"').then(r => console.log(r))
             }
 
             if (err) {
@@ -45,6 +43,13 @@ class Pool {
             }
         });
     }
+    // https://www.npmjs.com/package/mysql2#using-promise-wrapper
+    // construimos un manejador asicrono de queries
+    queryHandler = async (sql, values) => {
+        return await this.db.promise().query(sql, values)
+    }
+
 }
 
+// exportamos como default la función manejadora de queries
 export default new Pool().queryHandler
