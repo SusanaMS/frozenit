@@ -35,17 +35,26 @@ class UserController {
 
     const { email, password } = req.body;
 
-    console.log(email, password);
-
     const user = await UserModel.findOne({ email });
 
+    console.log(user);
     if (user.length !== 1) {
       res.status(404).json({ error: "usuario no encontrado" });
       console.error(`usuario ${email} no encontrdao`);
       return;
     }
 
-    res.send(user);
+    const { pass, ...userNoPass } = user[0];
+
+    // TODO: chechear de forma segura mediante hash
+    console.log(password, pass);
+    if (password !== pass) {
+      res.status(404).json({ error: "usuario o password erronea" });
+      console.error(`usuario o password ${email} erronea`);
+      return;
+    }
+
+    res.send(userNoPass);
   };
 
   static checkValidation = (req) => {
