@@ -58,7 +58,8 @@ class UserController {
       return;
     }
 
-    // una vez confirmado el login generamos el toke JWT
+    // una vez confirmado el login generamos el token JWT
+    // https://www.npmjs.com/package/jsonwebtoken
     const secret = process.env.JWT_SECRET || "";
     const token = jwt.sign({ user_id: userNoPass.email.toString() }, secret, {
       expiresIn: process.env.JWT_EXPIRES || "24h",
