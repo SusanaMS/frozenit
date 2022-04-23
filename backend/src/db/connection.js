@@ -1,15 +1,21 @@
-import mysql2 from 'mysql2'
+import mysql2 from 'mysql2';
+import dotenv from 'dotenv';
 
-class Connection {
+class Pool {
     constructor(host, dbUser, dbPass, dbDatabase) {
+        dotenv.config()
 
         this.db = mysql2.createPool({
-            host: host,
-            user: dbUser,
-            password: dbPass,
-            database: dbDatabase
+            host:  process.env.HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            database: process.env.DB_DATABASE,
         });
+
+        // una vez que creamos el Pool de conexión testeamos el acceso a BD
+        this.checkConnection()
     }
+
 
     checkConnection() {
         this.db.getConnection((err, connection) => {
@@ -31,6 +37,8 @@ class Connection {
             }
         });
     }
+
 }
 
-export { Connection }
+// exportamos como default el Pool instanciado
+export default new Pool()
