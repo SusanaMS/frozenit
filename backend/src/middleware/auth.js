@@ -16,7 +16,6 @@ const auth = () => {
       }
 
       const token = authHeader.replace(bearer, "");
-      console.log(token);
       const secretKey = process.env.JWT_SECRET || "";
 
       const decoded = jwt.verify(token, secretKey);
@@ -30,7 +29,7 @@ const auth = () => {
         throw new HttpException(401, "Authentication failed!");
       }
 
-      req.currentUser = user;
+      req.currentUser = user[0];
       next();
     } catch (e) {
       e.status = 401;

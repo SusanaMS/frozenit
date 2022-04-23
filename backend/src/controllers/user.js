@@ -51,7 +51,6 @@ class UserController {
     const { pass, ...userNoPass } = user[0];
 
     // TODO: chechear de forma segura mediante hash
-    console.log(password, pass);
     if (password !== pass) {
       res.status(404).json({ error: "usuario o password erronea" });
       console.error(`usuario o password ${email} erronea`);

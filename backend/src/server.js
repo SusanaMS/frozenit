@@ -13,6 +13,7 @@ import { userEndPoint } from "./endpoints/user.js";
 import { foodEndPoint } from "./endpoints/food.js";
 import { categoryEndPoint } from "./endpoints/category.js";
 import { freezerEndPoint } from "./endpoints/freezer.js";
+import { recordEndPoint } from "./endpoints/record.js";
 
 // Init express
 const app = express();
@@ -42,6 +43,7 @@ app.use(`/api/v1/users`, userEndPoint);
 app.use(`/api/v1/foods`, foodEndPoint);
 app.use(`/api/v1/categories`, categoryEndPoint);
 app.use(`/api/v1/freezers`, freezerEndPoint);
+app.use(`/api/v1/records`, recordEndPoint);
 
 // controlamos los posibles 404
 app.all("*", (req, res, next) => {
