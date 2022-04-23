@@ -12,6 +12,20 @@ class UserController {
         // devolvemos la lista sin los metadatatos
         res.send(userList[0]);
     };
+
+    static getUserByEmail = async (req, res, next) => {
+        const user = await UserModel.findOne({ email: req.params.email });
+        if (user.length !== 1) {
+            res.status(400).send({
+                message: 'Usuario no encontrado'
+            });
+        }
+        // eliminamos las pass del response
+        const { pass, ...userWithoutPassword } = user[0];
+
+        res.send(userWithoutPassword);
+    };
+
 }
 
 export { UserController }
