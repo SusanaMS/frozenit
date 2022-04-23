@@ -34,9 +34,14 @@ class FoodModel {
     const sql = `INSERT INTO ${this.tableName}
         (name_food, categories_name_category, remarks) VALUES (?,?,?)`;
 
-    const result = await queryHandler.default(sql, [name, category, remarks]);
+    return await queryHandler.default(sql, [name, category, remarks]);
+  };
 
-    return result;
+  static delete = async (id) => {
+    return await queryHandler.default(
+      `DELETE FROM ${this.tableName} WHERE id = ?`,
+      [id]
+    );
   };
 }
 

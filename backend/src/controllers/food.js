@@ -46,6 +46,16 @@ class FoodController {
 
     res.status(201).json({ mensaje: "alta de alimento correcta" });
   };
+
+  static deleteFood = async (req, res, next) => {
+    const result = await FoodModel.delete(req.params.id);
+    if (!result[0].affectedRows) {
+      res.status(404).json({ error: "error en baja de alimento" });
+      console.error("error en baja de alimento");
+      return;
+    }
+    res.status(201).json({ mensaje: "baja de alimento correcta" });
+  };
 }
 
 export { FoodController };

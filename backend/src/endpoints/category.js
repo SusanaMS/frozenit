@@ -17,4 +17,6 @@ categoryEndPoint.post(
   CategoryController.addCategory
 );
 
+categoryEndPoint.delete("/name/:name", CategoryController.deleteCategory);
+
 export { categoryEndPoint };

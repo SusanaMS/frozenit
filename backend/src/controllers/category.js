@@ -43,8 +43,17 @@ class CategoryController {
       console.error("error en alta de categoria");
       return;
     }
-
     res.status(201).json({ mensaje: "alta de categoria correcta" });
+  };
+
+  static deleteCategory = async (req, res, next) => {
+    const result = await CategoryModel.delete(req.params.name);
+    if (!result[0].affectedRows) {
+      res.status(404).json({ error: "error en baja de categoria" });
+      console.error("error en baja de categoria");
+      return;
+    }
+    res.status(201).json({ mensaje: "baja de categoria correcta" });
   };
 }
 

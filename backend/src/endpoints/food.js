@@ -12,4 +12,6 @@ foodEndPoint.get("/name/:name", FoodController.getFoodByName);
 
 foodEndPoint.post("/add", validateAddFood, FoodController.addFood);
 
+foodEndPoint.delete("/id/:id", FoodController.deleteFood);
+
 export { foodEndPoint };

@@ -34,6 +34,13 @@ class CategoryModel {
 
     return await queryHandler.default(sql, [name, expiration, remarks]);
   };
+
+  static delete = async (name) => {
+    return await queryHandler.default(
+      `DELETE FROM ${this.tableName} WHERE name_category = ?`,
+      [name]
+    );
+  };
 }
 
 export { CategoryModel };

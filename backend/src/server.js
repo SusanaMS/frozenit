@@ -10,8 +10,8 @@ import "./db/connection.js";
 import { EndPointNotFoundException } from "./exceptions/EndPointNotFoundException.js";
 
 import { userEndPoint } from "./endpoints/user.js";
-import { foodEndPoint } from "./endpoints/food.js";
 import { categoryEndPoint } from "./endpoints/category.js";
+import { foodEndPoint } from "./endpoints/food.js";
 import { freezerEndPoint } from "./endpoints/freezer.js";
 import { recordEndPoint } from "./endpoints/record.js";
 
