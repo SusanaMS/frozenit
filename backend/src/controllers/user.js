@@ -52,7 +52,7 @@ class UserController {
       return;
     }
 
-    res.status(201).send("SignUp correcto!");
+    res.status(201).json({ mensaje: "SignUp Correcto!" });
   };
 
   static login = async (req, res, next) => {
