@@ -1,12 +1,29 @@
-import {Router as EndPointRouter} from 'express';
-import {UserController} from "../controllers/user.js";
+import { Router as EndPointRouter } from "express";
+import { body } from "express-validator";
+import { UserController } from "../controllers/user.js";
 
 // https://expressjs.com/es/api.html#express.router
-const userEndPoint = EndPointRouter({caseSensitive: true});
+const userEndPoint = EndPointRouter({ caseSensitive: true });
 
 // http://localhost:3000/api/v1/users/all/
-userEndPoint.get('/all/' , UserController.getAllUsers);
+userEndPoint.get("/all/", UserController.getAllUsers);
 // http://localhost:3000/api/v1/users/email/anasus@gmail.com
-userEndPoint.get('/email/:email', UserController.getUserByEmail);
+userEndPoint.get("/email/:email", UserController.getUserByEmail);
 
-export { userEndPoint }
+const validateLogin = [
+  body("email")
+    .exists()
+    .withMessage("Se requiere: email")
+    .isEmail()
+    .withMessage("el email debe ser válido")
+    .normalizeEmail(),
+  body("password")
+    .exists()
+    .withMessage("se require: password")
+    .notEmpty()
+    .withMessage("la password no debe estra vacía"),
+];
+
+userEndPoint.post("/login", validateLogin, UserController.login);
+
+export { userEndPoint };
