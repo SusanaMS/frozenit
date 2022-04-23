@@ -10,6 +10,7 @@ class Pool {
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
             database: process.env.DB_DATABASE,
+            debug: false
         });
 
         // una vez que creamos el Pool de conexión testeamos el acceso a BD
@@ -21,6 +22,10 @@ class Pool {
             if (connection) {
                 console.error('Conectado a la BBDD');
                 connection.release();
+                // realizamos una query de testeo
+                connection.query({ sql: 'select "CONECTADA!"', rowsAsArray: true }, function(err, results, fields) {
+                    console.log(results)
+                });
             }
 
             if (err) {
