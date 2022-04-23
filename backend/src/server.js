@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 // la primera importación del modulo de conexión a la BBDD se realiza solo
 // para comprobar la conectividad a la BD (side effects)
 import "./db/connection.js";
+import {EndPointNotFoundException} from "./exceptions/EndPointNotFoundException.js";
 
 import {userEndPoint} from "./endpoints/user.js";
 
@@ -26,6 +27,11 @@ app.get('/hello', (req, res) => {
 // añadimos los endpoint de usuario
 app.use(`/api/v1/users`, userEndPoint);
 
+// controlamos los posibles 404
+app.all('*', (req, res, next) => {
+    const err = new EndPointNotFoundException(404, 'EndPoint no accesible');
+    next(err);
+});
 // Arrancamos el servidor ecuchando por el puerto antes indicado
 app.listen(port, () =>
     console.log(`Running on port ${port}!`));
