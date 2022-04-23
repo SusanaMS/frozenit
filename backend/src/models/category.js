@@ -27,6 +27,13 @@ class CategoryModel {
     // return back the first row (user)
     return result[0];
   };
+
+  static insert = async ({ name, expiration, remarks = "" }) => {
+    const sql = `INSERT INTO ${this.tableName}
+        (name_category, expiration_days, remarks) VALUES (?,?,?)`;
+
+    return await queryHandler.default(sql, [name, expiration, remarks]);
+  };
 }
 
 export { CategoryModel };
