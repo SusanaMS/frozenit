@@ -27,6 +27,36 @@ class FreezerModel {
     // return back the first row (user)
     return result[0];
   };
+
+  static insert = async ({
+    email,
+    name,
+    brand = "",
+    model = "",
+    stars = 5,
+    slots = 3,
+    notes = "",
+  }) => {
+    const sql = `INSERT INTO ${this.tableName}
+        (users_email, name_freezer, brand, model, stars, slots, notes) VALUES (?,?,?,?,?,?,?)`;
+
+    return await queryHandler.default(sql, [
+      email,
+      name,
+      brand,
+      model,
+      stars,
+      slots,
+      notes,
+    ]);
+  };
+
+  static delete = async (id) => {
+    return await queryHandler.default(
+      `DELETE FROM ${this.tableName} WHERE id = ?`,
+      [id]
+    );
+  };
 }
 
 export { FreezerModel };

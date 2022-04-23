@@ -1,4 +1,5 @@
 import { FreezerModel } from "../models/freezer.js";
+import { checkValidation } from "./common/utils.js";
 
 class FreezerController {
   static getAllFreezers = async (req, res, next) => {
@@ -12,6 +13,36 @@ class FreezerController {
     }
     // devolvemos la lista sin los metadatatos
     res.send(freezerList[0]);
+  };
+
+  static addFreezer = async (req, res, next) => {
+    const isReqValid = checkValidation(req);
+
+    if (isReqValid != null) {
+      res.status(404).json({ error: isReqValid });
+      return;
+    }
+
+    const result = await FreezerModel.insert(req.body);
+    console.log("addFreezer result", result);
+
+    if (!result[0].affectedRows) {
+      res.status(404).json({ error: "error en alta de frigorifico" });
+      console.error("error en alta de frigorifico");
+      return;
+    }
+
+    res.status(201).json({ mensaje: "alta de frigorifico correcta" });
+  };
+
+  static deleteFreezer = async (req, res, next) => {
+    const result = await FreezerModel.delete(req.params.id);
+    if (!result[0].affectedRows) {
+      res.status(404).json({ error: "error en baja de frigorifico" });
+      console.error("error en baja de frigorifico");
+      return;
+    }
+    res.status(201).json({ mensaje: "baja de frigorifico correcta" });
   };
 }
 
