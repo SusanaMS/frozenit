@@ -10,31 +10,38 @@
   </head>
   <body>
     <h1>FrozenIt</h1>
-    <div id="login-div" class="log-form">
-      <form id="loginForm">
-        <div class="group">
-          <input
-            type="email"
-            id="emailLogin"
-            title="email"
-            placeholder="email"
-            required="required"
-          />
-        </div>
-        <div class="group">
-          <input
-            type="password"
-            id="passwordLogin"
-            title="pasword"
-            placeholder="password"
-            required="required"
-          />
-        </div>
-        <button id="loginButton" type="submit" class="btn">Login</button>
-        <div id="loginErrorMessage" class="err" hidden>
-          <br />
-        </div>
-      </form>
+    <div id="userLogStatus">
+      <div id="login-div" class="log-form">
+        <form id="loginForm">
+          <div class="group">
+            <input
+              type="email"
+              id="emailLogin"
+              title="email"
+              placeholder="email"
+              required="required"
+            />
+          </div>
+          <div class="group">
+            <input
+              type="password"
+              id="passwordLogin"
+              title="pasword"
+              minlength="4"
+              placeholder="password"
+              required="required"
+            />
+          </div>
+          <button id="loginButton" type="submit" class="btn">Login</button>
+          <div id="loginErrorMessage" class="err" hidden>
+            <br />
+          </div>
+        </form>
+      </div>
+      <div id="userStatus">
+        <p id="userInfo"></p>
+        <button id="logoutButton" type="submit" class="btn">Logout</button>
+      </div>
     </div>
   </body>
 </html>

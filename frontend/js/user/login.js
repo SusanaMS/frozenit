@@ -1,11 +1,23 @@
 // doc
 import { BASE_ENDPOINT } from "../app/constants.js";
 
+const jwtToken = localStorage.getItem("jwtToken");
+
 const apiHeaders = new Headers();
 apiHeaders.append("Content-Type", "application/json");
 
 const loginForm = document.getElementById("loginForm");
+const userStatus = document.getElementById("userStatus");
+const logoutButton = document.getElementById("logoutButton");
+
+if (jwtToken != null) {
+  loginForm.classList.add("hidden");
+} else {
+  userStatus.classList.add("hidden");
+}
+
 loginForm.addEventListener("submit", processLogin);
+logoutButton.addEventListener("click", logout);
 
 function processLogin(event) {
   const emailLogin = document.getElementById("emailLogin").value;
@@ -36,7 +48,10 @@ function processLogin(event) {
         console.log("Login correcto");
         //almecanemos el token en la sesión web
         localStorage.setItem("jwtToken", jsonResult.token);
+        localStorage.setItem("userInfo", jsonResult);
         loginForm.classList.toggle("hidden");
+        userStatus.classList.toggle("hidden");
+        userInfo.innerText = jsonResult.username;
       } else {
         console.error("Login incorrecto");
         loginErrorMessage.innerText = jsonResult.error;
@@ -46,4 +61,11 @@ function processLogin(event) {
     .catch((error) => console.error("error en fetch", error));
 
   event.preventDefault();
+}
+
+function logout(event) {
+  console.log("logout");
+  event.preventDefault();
+  localStorage.clear();
+  location.reload();
 }
