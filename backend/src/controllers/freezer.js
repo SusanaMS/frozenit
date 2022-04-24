@@ -15,6 +15,19 @@ class FreezerController {
     res.send(freezerList[0]);
   };
 
+  static getFreezerByUser = async (req, res, next) => {
+    const freezer = await FreezerModel.find({
+      users_email: req.params.email,
+    });
+    console.log(freezer, "<<<<<");
+    if (!freezer.length) {
+      res.status(404).json({ error: "no se ha encontrado el frigorifico" });
+      console.error("error: no se ha encontrado el frigorifico");
+      return;
+    }
+    res.send(freezer[0]);
+  };
+
   static addFreezer = async (req, res, next) => {
     const isReqValid = checkValidation(req);
 

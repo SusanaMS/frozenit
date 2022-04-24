@@ -7,8 +7,15 @@ class FreezerModel {
   static find = async (params = {}) => {
     let sql = `SELECT * FROM ${this.tableName}`;
 
-    console.log(sql);
-    return queryHandler.default(sql, null);
+    if (!Object.keys(params).length) {
+      return queryHandler.default(sql, null);
+    }
+
+    // en caso de que enviamos parametros filtramos la select
+    const { colString, values } = colValueBinder(params);
+    sql += ` WHERE ${colString}`;
+
+    return queryHandler.default(sql, [...values]);
   };
 
   static findOne = async (params) => {
@@ -24,7 +31,6 @@ class FreezerModel {
     // pasamos el SQL con el BIND a los valores
     const result = await queryHandler.default(sql, [...values]);
 
-    // return back the first row (user)
     return result[0];
   };
 
