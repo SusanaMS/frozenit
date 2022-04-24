@@ -23,11 +23,19 @@ function processLogin(event) {
     redirect: "follow",
   };
 
-  console.log(`${BASE_ENDPOINT}/users/login/`);
   fetch(`${BASE_ENDPOINT}/users/login/`, requestOptions)
     .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.error("error", error));
+    .then((result) => {
+      const jsonResult = JSON.parse(result);
+      console.log(jsonResult);
+      if (jsonResult.token != null) {
+        console.log("Login correcto");
+        localStorage.setItem("jwtToken", jsonResult.token);
+      } else {
+        console.error("Login incorrecto");
+      }
+    })
+    .catch((error) => console.error("error en fetch", error));
 
   event.preventDefault();
 }
