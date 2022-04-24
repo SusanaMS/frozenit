@@ -1,5 +1,5 @@
 // doc
-import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../app/constants.js";
+import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
 
 const jwtToken = localStorage.getItem("jwtToken");
 const sessionUserInfo = localStorage.getItem("sessionUserInfo");
