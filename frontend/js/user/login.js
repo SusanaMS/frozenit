@@ -1,6 +1,8 @@
 // doc
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
 
+const MODEL_ENPOINT = "users";
+
 const jwtToken = localStorage.getItem("jwtToken");
 const sessionUserInfo = localStorage.getItem("sessionUserInfo");
 
@@ -57,7 +59,9 @@ function processLogin(event) {
     redirect: "follow",
   };
 
-  fetch(`${BASE_ENDPOINT}/users/login/`, requestOptions)
+  const endpoint = `${BASE_ENDPOINT}/${MODEL_ENPOINT}/login/`;
+
+  fetch(endpoint, requestOptions)
     .then((response) => response.text())
     .then((result) => {
       const jsonResult = JSON.parse(result);
@@ -106,7 +110,9 @@ function processSignup(event) {
     redirect: "follow",
   };
 
-  fetch(`${BASE_ENDPOINT}/users/signup/`, requestOptions)
+  const endpoint = `${BASE_ENDPOINT}/${MODEL_ENPOINT}/signup/`;
+
+  fetch(endpoint, requestOptions)
     .then((response) => response.text())
     .then((result) => {
       const jsonResult = JSON.parse(result);
