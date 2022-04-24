@@ -7,23 +7,33 @@ const sessionUserInfo = localStorage.getItem("sessionUserInfo");
 const apiHeaders = new Headers();
 apiHeaders.append("Content-Type", API_CONTENT_TYPE);
 
+const loginGroup = document.getElementById("loginGroup");
 const loginForm = document.getElementById("loginForm");
 const userStatus = document.getElementById("userStatus");
 const userInfo = document.getElementById("userInfo");
 const logoutButton = document.getElementById("logoutButton");
+const signupButton = document.getElementById("signupButton");
+const signupForm = document.getElementById("signupForm");
 
 loginForm.addEventListener("submit", processLogin);
+signupForm.addEventListener("submit", processSignup);
+
 logoutButton.addEventListener("click", logout);
+signupButton.addEventListener("click", () => {
+  loginForm.classList.add("hidden");
+  signupButton.classList.add("hidden");
+  signupForm.classList.add("nothidden");
+});
 
 if (jwtToken != null) {
   // cuando tenemos almacenad el jwt existía un login previo
-  loginForm.classList.add("hidden");
+  loginGroup.classList.add("hidden");
   userStatus.classList.add("nothidden");
   userInfo.innerText = JSON.parse(sessionUserInfo).username;
 } else {
   // si no es así mostramos el formulario de login
   userStatus.classList.add("hidden");
-  loginForm.classList.add("nothidden");
+  loginGroup.classList.add("nothidden");
 }
 
 function processLogin(event) {
@@ -65,6 +75,53 @@ function processLogin(event) {
       }
     })
     .catch((error) => console.error("error en fetch", error));
+
+  event.preventDefault();
+}
+
+function processSignup(event) {
+  console.log("signup");
+
+  const usernameSignup = document.getElementById("usernameSignup").value;
+  const emailSignup = document.getElementById("emailSignup").value;
+  const passwordSignup = document.getElementById("passwordSignup").value;
+  const passwordSignupConfirmation = document.getElementById(
+    "passwordSignupConfirmation"
+  ).value;
+  const signupErrorMessage = document.getElementById("signupErrorMessage");
+
+  signupErrorMessage.classList.add("hidden");
+
+  const jsonString = JSON.stringify({
+    username: usernameSignup,
+    email: emailSignup,
+    password: passwordSignup,
+    validation_password: passwordSignupConfirmation,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: apiHeaders,
+    body: jsonString,
+    redirect: "follow",
+  };
+
+  fetch(`${BASE_ENDPOINT}/users/signup/`, requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      const jsonResult = JSON.parse(result);
+      console.log(jsonResult);
+      if (jsonResult.error == null) {
+        console.log("Signup correcto");
+        window.alert("Signup correcto! Puedes logearte con tus credenciales");
+        location.reload();
+      } else {
+        console.error(`error de signup: ${jsonResult.error}`);
+        signupErrorMessage.innerText = jsonResult.error;
+        signupErrorMessage.classList.add("nothidden");
+      }
+    })
+    .catch((error) => console.log("error", error));
 
   event.preventDefault();
 }
