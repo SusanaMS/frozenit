@@ -9,9 +9,8 @@
     <script type="module" src="js/user/login.js" defer></script>
   </head>
   <body>
-    <div class="log-form">
-      <h2>Login</h2>
-      <h1>FrozenIt</h1>
+    <h1>FrozenIt</h1>
+    <div id="login-div" class="log-form">
       <form id="loginForm">
         <div class="group">
           <input
@@ -32,6 +31,9 @@
           />
         </div>
         <button id="loginButton" type="submit" class="btn">Login</button>
+        <div id="loginErrorMessage" class="err" hidden>
+          <br />
+        </div>
       </form>
     </div>
   </body>

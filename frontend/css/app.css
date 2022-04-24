@@ -1,0 +1,11 @@
+.hidden {
+  display: none;
+}
+.err {
+  background: #ffe7f4;
+  border: 1px solid #ff6a6a;
+}
+
+.nothidden {
+  display: block;
+}
