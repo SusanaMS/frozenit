@@ -7,6 +7,7 @@
     <title>FrozenIt</title>
     <link rel="stylesheet" href="css/app.css" />
     <script type="module" src="js/user/login.js" defer></script>
+    <script type="module" src="js/freezer/get.js" defer></script>
   </head>
   <body>
     <h1>FrozenIt</h1>
@@ -92,6 +93,10 @@
         <p id="userInfo"></p>
         <button id="logoutButton" type="submit" class="btn">Logout</button>
       </div>
+    </div>
+    <div id="freezerGroup" hidden>
+      <h3>Mis Frigos</h3>
+      <ul id="freezerList"></ul>
     </div>
   </body>
 </html>
