@@ -46,7 +46,7 @@ function processLogin(event) {
 
   loginErrorMessage.classList.add("hidden");
 
-  const jsonString = JSON.stringify({
+  const jsonRequest = JSON.stringify({
     email: emailLogin,
     password: paswordLogin,
   });
@@ -54,7 +54,7 @@ function processLogin(event) {
   const requestOptions = {
     method: "POST",
     headers: apiHeaders,
-    body: jsonString,
+    body: jsonRequest,
     redirect: "follow",
   };
 
@@ -96,7 +96,7 @@ function processSignup(event) {
 
   signupErrorMessage.classList.add("hidden");
 
-  const jsonString = JSON.stringify({
+  const jsonRequest = JSON.stringify({
     username: usernameSignup,
     email: emailSignup,
     password: passwordSignup,
@@ -106,7 +106,7 @@ function processSignup(event) {
   const requestOptions = {
     method: "POST",
     headers: apiHeaders,
-    body: jsonString,
+    body: jsonRequest,
     redirect: "follow",
   };
 
