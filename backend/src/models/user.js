@@ -26,7 +26,7 @@ class UserModel {
     // pasamos el SQL con el BIND a los valores
     const result = await queryHandler.default(sql, [...values]);
 
-    // return back the first row (user)
+    // devolvemos el usuario
     return result[0];
   };
 

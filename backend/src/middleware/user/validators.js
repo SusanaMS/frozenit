@@ -10,8 +10,9 @@ const validateLogin = [
   body("password")
     .exists()
     .withMessage("se require: password")
-    .notEmpty()
-    .withMessage("la password no debe estra vacía"),
+    .isLength({ min: 4 })
+    .withMessage("Longitud míníma 4")
+    .withMessage("Longitud míníma 4"),
 ];
 
 const validateSignUp = [
