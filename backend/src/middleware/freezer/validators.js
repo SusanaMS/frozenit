@@ -34,12 +34,7 @@ const validateAddFreezer = [
     .optional()
     .isInt({ min: 1, max: 5 })
     .withMessage("min: 1, max: 5"),
-  body("notes")
-    .optional()
-    .isString()
-    .withMessage("Solo caracteres alfanúmericos")
-    .isLength({ min: 8 })
-    .withMessage("Longitud míníma 10"),
+  body("notes").optional().isString(),
 ];
 
 export { validateAddFreezer };

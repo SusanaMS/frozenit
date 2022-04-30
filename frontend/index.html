@@ -32,6 +32,9 @@
               <li>
                 <a id="freezerGet">Ver congeladores</a>
               </li>
+              <li>
+                <a id="freezerAdd">Añadir congelador</a>
+              </li>
             </ul>
           </section>
         </nav>
@@ -134,7 +137,40 @@
             </div>
 
             <div id="freezerBox" class="info-box" style="display: none">
-              <div class="err" hidden id="freezerBoxMessage">
+              <div class="err" hidden id="freezerBoxMessage"></div>
+            </div>
+            <div id="freezerBoxAdd" class="info-box" style="display: none">
+              <form id="addFreezerForm">
+                <div class="group">
+                  <input
+                    id="freezerName"
+                    minlength="4"
+                    placeholder="name"
+                    required="required"
+                    title="name"
+                    type="text"
+                  />
+                </div>
+                <div class="group">
+                  <textarea
+                    id="freezerNotes"
+                    rows="4"
+                    minlength="10"
+                    cols="20"
+                    name="comment"
+                    form="addFreezerForm"
+                    placeholder="Notas"
+                  ></textarea>
+                </div>
+                <button class="btn" id="submitAddFreezerButton" type="submit">
+                  Resgistrar
+                </button>
+                <div class="err" hidden id="freezerAddErrorMessage">
+                  <br />
+                </div>
+              </form>
+
+              <div class="err" hidden id="freezerBoxAddMessage"></div>
             </div>
           </section>
         </div>
