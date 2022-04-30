@@ -2,101 +2,143 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>FrozenIt</title>
-    <link rel="stylesheet" href="css/app.css" />
+    <link href="css/app.css" rel="stylesheet" type="text/css" />
     <script type="module" src="js/user/login.js" defer></script>
     <script type="module" src="js/freezer/get.js" defer></script>
   </head>
   <body>
-    <h1>FrozenIt</h1>
-    <div id="userLogStatus">
-      <div id="loginGroup" class="log-form">
-        <form id="loginForm">
-          <div class="group">
-            <input
-              type="email"
-              id="emailLogin"
-              title="email"
-              placeholder="email"
-              required="required"
-            />
+    <div class="dashboard">
+      <header class="menu-wrap">
+        <figure class="user">
+          <div class="user-avatar">
+            <img alt="Avatar" src="" />
           </div>
-          <div class="group">
-            <input
-              type="password"
-              id="passwordLogin"
-              title="pasword"
-              minlength="4"
-              placeholder="password"
-              required="required"
-            />
-          </div>
-          <button id="loginButton" type="submit" class="btn">Login</button>
-          <div id="loginErrorMessage" class="err" hidden>
-            <br />
-          </div>
-        </form>
-        <div id="signup">
-          <form id="signupForm" hidden>
-            <div class="group">
-              <input
-                type="text"
-                id="usernameSignup"
-                title="username"
-                minlength="4"
-                placeholder="username"
-                required="required"
-              />
+          <figcaption id="userInfo">Usuario no autenticado</figcaption>
+          &nbsp;
+          <button class="btn" id="logoutButton" type="submit">Logout</button>
+          <button class="btn" id="signupButton">Signup</button>
+        </figure>
+
+        <nav>
+          <section class="dicover">
+            <h3>Acciones</h3>
+            <ul>
+              <li>
+                <a> Comidas </a>
+              </li>
+              <li>
+                <a id="freezerGet">Ver congeladores</a>
+              </li>
+            </ul>
+          </section>
+        </nav>
+      </header>
+
+      <main class="content-wrap">
+        <header class="content-head">
+          <h1>FrozenIt</h1>
+        </header>
+
+        <div class="content">
+          <section class="info-boxes">
+            <div id="logBox" class="info-box">
+              <div class="box-content">
+                <div id="userLogStatus">
+                  <div class="log-form" id="loginGroup">
+                    <form id="loginForm">
+                      <div class="group">
+                        <input
+                          id="emailLogin"
+                          placeholder="email"
+                          required="required"
+                          title="email"
+                          type="email"
+                        />
+                      </div>
+                      <div class="group">
+                        <input
+                          id="passwordLogin"
+                          minlength="4"
+                          placeholder="password"
+                          required="required"
+                          title="pasword"
+                          type="password"
+                        />
+                      </div>
+                      <button class="btn" id="loginButton" type="submit">
+                        Login
+                      </button>
+                      <div class="err" hidden id="loginErrorMessage">
+                        <br />
+                      </div>
+                    </form>
+                    <div id="signup">
+                      <form hidden id="signupForm">
+                        <div class="group">
+                          <input
+                            id="usernameSignup"
+                            minlength="4"
+                            placeholder="username"
+                            required="required"
+                            title="username"
+                            type="text"
+                          />
+                        </div>
+                        <div class="group">
+                          <input
+                            id="emailSignup"
+                            placeholder="email"
+                            required="required"
+                            title="email"
+                            type="email"
+                          />
+                        </div>
+                        <div class="group">
+                          <input
+                            id="passwordSignup"
+                            minlength="4"
+                            placeholder="password"
+                            required="required"
+                            title="pasword"
+                            type="password"
+                          />
+                        </div>
+                        <div class="group">
+                          <input
+                            id="passwordSignupConfirmation"
+                            minlength="4"
+                            placeholder="repeat password"
+                            required="required"
+                            title="pasword"
+                            type="password"
+                          />
+                        </div>
+                        <button
+                          class="btn"
+                          id="submitSignupButton"
+                          type="submit"
+                        >
+                          Signup
+                        </button>
+                        <div class="err" hidden id="signupErrorMessage">
+                          <br />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="group">
-              <input
-                type="email"
-                id="emailSignup"
-                title="email"
-                placeholder="email"
-                required="required"
-              />
+
+            <div id="freezerBox" class="info-box" style="display: none">
+              <div class="err" hidden id="freezerBoxMessage">
             </div>
-            <div class="group">
-              <input
-                type="password"
-                id="passwordSignup"
-                title="pasword"
-                minlength="4"
-                placeholder="password"
-                required="required"
-              />
-            </div>
-            <div class="group">
-              <input
-                type="password"
-                id="passwordSignupConfirmation"
-                title="pasword"
-                minlength="4"
-                placeholder="repeat password"
-                required="required"
-              />
-            </div>
-            <button id="submitSignupButton" type="submit" class="btn">
-              Signup
-            </button>
-            <div id="signupErrorMessage" class="err" hidden>
-              <br />
-            </div>
-          </form>
-          <button id="signupButton" class="btn">Signup</button>
+          </section>
         </div>
-      </div>
-      <div id="userStatus">
-        <p id="userInfo"></p>
-        <button id="logoutButton" type="submit" class="btn">Logout</button>
-      </div>
-    </div>
-    <div id="freezerGroup" hidden>
-      <h3>Mis Frigos</h3>
-      <ul id="freezerList"></ul>
+      </main>
     </div>
   </body>
 </html>
