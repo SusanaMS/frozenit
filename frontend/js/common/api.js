@@ -18,18 +18,26 @@ function apiError(isConnectError, errorDOM, endpoint, errorMessage) {
 
 // https://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
 // Builds the HTML Table out of myList json data from Ivy restful service.
-function jsonArray2htmlTable(arr, domId) {
+function jsonArray2htmlTable(arr, domId, buttonFunc) {
   const table = _table_.cloneNode(false),
     columns = addAllColumnHeaders(arr, table);
-  let i = 0,
-    maxi = arr.length;
-  for (; i < maxi; ++i) {
+  let i = 0;
+  let botonEliminar;
+  for (; i < arr.length; ++i) {
     const tr = _tr_.cloneNode(false);
-    let j = 0,
-      maxj = columns.length;
-    for (; j < maxj; ++j) {
+    let j = 0;
+    for (; j < columns.length; ++j) {
       const td = _td_.cloneNode(false);
-      td.appendChild(document.createTextNode(arr[i][columns[j]] || ""));
+      const celda = arr[i][columns[j]] || "err";
+      if (j === 0) {
+        botonEliminar = document.createElement("button");
+        botonEliminar.innerHTML = "Eliminar";
+        botonEliminar.setAttribute("id", `${domId}Delete-${celda}`);
+        botonEliminar.onclick = buttonFunc;
+        td.appendChild(botonEliminar);
+      } else {
+        td.appendChild(document.createTextNode(celda));
+      }
       tr.appendChild(td);
     }
     table.appendChild(tr);
