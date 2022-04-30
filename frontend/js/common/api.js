@@ -1,11 +1,13 @@
 function apiError(isConnectError, errorDOM, endpoint, errorMessage) {
   const errorMessageAPI = `error API: ${endpoint} => ${errorMessage}`;
   console.error(errorMessageAPI);
+  let alertErrorMessage;
   if (isConnectError) {
-    errorDOM.innerText = "error de conexión a la API";
+    alertErrorMessage = "error de conexión a la API";
   } else {
-    errorDOM.innerText = errorMessage;
+    alertErrorMessage = errorMessage;
   }
+  alert(alertErrorMessage);
   errorDOM.classList.add("nothidden");
 }
 
