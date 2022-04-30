@@ -113,19 +113,27 @@ function deleteFreezer(elem) {
   fetch(endpoint, requestOptions)
     .then((response) => response.text())
     .then((result) => {
-      console.log(result);
       const jsonResult = JSON.parse(result);
       console.log(jsonResult);
-      window.alert("Baja de frigorifico correcta");
-      const sessionUserInfo = JSON.parse(
-        localStorage.getItem("sessionUserInfo")
-      );
-      console.log(sessionUserInfo);
-      if (sessionUserInfo.email != null) {
-        console.log(sessionUserInfo.email);
-        getFreezersByUser(sessionUserInfo.email);
+      if (jsonResult != null && !jsonResult.error) {
+        window.alert("Baja de frigorifico correcta");
+        const sessionUserInfo = JSON.parse(
+          localStorage.getItem("sessionUserInfo")
+        );
+        console.log(sessionUserInfo);
+        if (sessionUserInfo.email != null) {
+          console.log(sessionUserInfo.email);
+          getFreezersByUser(sessionUserInfo.email);
+        } else {
+          location.reload();
+        }
       } else {
-        location.reload();
+        apiError(
+          false,
+          freezerBoxMessage,
+          endpoint,
+          jsonResult.error || "no se ha obtenido respuesta"
+        );
       }
     })
     .catch((error) =>
