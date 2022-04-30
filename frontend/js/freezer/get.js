@@ -1,13 +1,13 @@
 // doc
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
-import { apiError } from "../common/api.js";
+import { apiError, jsonArray2htmlTable } from "../common/api.js";
 
 const MODEL_ENPOINT = "freezers";
 const jwtToken = localStorage.getItem("jwtToken");
 const freezerGet = document.getElementById("freezerGet");
 const freezerBox = document.getElementById("freezerBox");
 const freezerBoxMessage = document.getElementById("freezerBoxMessage");
-const apiHeaders = new Headers();
+let apiHeaders;
 
 freezerGet.addEventListener("click", processFreezerGet);
 
@@ -17,6 +17,7 @@ function processFreezerGet() {
     return;
   }
   new Promise((resolve) => {
+    apiHeaders = new Headers();
     apiHeaders.append("Content-Type", API_CONTENT_TYPE);
     apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
     freezerBox.classList.add("nothidden");
@@ -34,7 +35,7 @@ function getFreezersByUser(email) {
 
   const endpoint = `${BASE_ENDPOINT}/${MODEL_ENPOINT}/email/${email}`;
 
-  console.log(endpoint);
+  console.log(endpoint, apiHeaders.get("Authorization"));
 
   fetch(endpoint, requestOptions)
     .then((response) => response.text())
@@ -51,7 +52,14 @@ function getFreezersByUser(email) {
             "no hay frigorificos asociados a su cuenta"
           );
         } else {
+          const element = document.getElementById("freezerTable");
+          if (element != null) {
+            element.remove();
+          }
           console.log("ok");
+          const htmlTable = jsonArray2htmlTable(jsonResult, "freezerTable");
+          console.log(htmlTable);
+          freezerBox.appendChild(htmlTable);
         }
       } else {
         apiError(
