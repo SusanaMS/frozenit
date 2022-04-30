@@ -1,6 +1,6 @@
 // doc
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
-import { apiError } from "../common/api.js";
+import { apiError } from "../common/utils.js";
 
 const MODEL_ENPOINT = "users";
 

@@ -1,6 +1,6 @@
 // doc
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
-import { apiError, jsonArray2htmlTable } from "../common/api.js";
+import { apiError, jsonArray2htmlTable } from "../common/utils.js";
 
 const MODEL_ENPOINT = "freezers";
 const jwtToken = localStorage.getItem("jwtToken");
@@ -188,7 +188,7 @@ function processFreezerAdd(event) {
       console.log(jsonResult);
       if (jsonResult.error == null) {
         window.alert("alta de congelador correcta!");
-        location.reload();
+        getFreezersByUser(email);
       } else {
         apiError(false, freezerAddErrorMessage, endpoint, jsonResult.error);
       }
