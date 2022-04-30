@@ -73,10 +73,12 @@ function processLogin(event) {
         signupButton.classList.add("hidden");
         location.reload();
       } else {
-        apiError(loginErrorMessage, endpoint, jsonResult.error);
+        apiError(false, loginErrorMessage, endpoint, jsonResult.error);
       }
     })
-    .catch((error) => apiError(loginErrorMessage, endpoint, error.message));
+    .catch((error) =>
+      apiError(true, loginErrorMessage, endpoint, error.message)
+    );
 
   event.preventDefault();
 }
@@ -120,10 +122,12 @@ function processSignup(event) {
         window.alert("Signup correcto! Puedes logearte con tus credenciales");
         location.reload();
       } else {
-        apiError(signupErrorMessage, endpoint, jsonResult.error);
+        apiError(false, signupErrorMessage, endpoint, jsonResult.error);
       }
     })
-    .catch((error) => apiError(signupErrorMessage, endpoint, error.message));
+    .catch((error) =>
+      apiError(true, signupErrorMessage, endpoint, error.message)
+    );
 
   event.preventDefault();
 }
