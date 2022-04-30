@@ -1,5 +1,6 @@
 // doc
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
+import { apiError } from "../common/api.js";
 
 const MODEL_ENPOINT = "users";
 
@@ -9,9 +10,8 @@ const sessionUserInfo = localStorage.getItem("sessionUserInfo");
 const apiHeaders = new Headers();
 apiHeaders.append("Content-Type", API_CONTENT_TYPE);
 
-const loginGroup = document.getElementById("loginGroup");
+const logBox = document.getElementById("logBox");
 const loginForm = document.getElementById("loginForm");
-const userStatus = document.getElementById("userStatus");
 const userInfo = document.getElementById("userInfo");
 const logoutButton = document.getElementById("logoutButton");
 const signupButton = document.getElementById("signupButton");
@@ -29,13 +29,12 @@ signupButton.addEventListener("click", () => {
 
 if (jwtToken != null) {
   // cuando tenemos almacenad el jwt existía un login previo
-  loginGroup.classList.add("hidden");
-  userStatus.classList.add("nothidden");
+  logBox.setAttribute("style", "display: none");
+  signupButton.classList.add("hidden");
   userInfo.innerText = JSON.parse(sessionUserInfo).username;
 } else {
   // si no es así mostramos el formulario de login
-  userStatus.classList.add("hidden");
-  loginGroup.classList.add("nothidden");
+  logBox.setAttribute("style", "display: flex");
 }
 
 function processLogin(event) {
@@ -71,14 +70,13 @@ function processLogin(event) {
         //almecanemos el token jwt y la info de usuario
         localStorage.setItem("jwtToken", jsonResult.token);
         localStorage.setItem("sessionUserInfo", JSON.stringify(jsonResult));
+        signupButton.classList.add("hidden");
         location.reload();
       } else {
-        console.error("Login incorrecto");
-        loginErrorMessage.innerText = jsonResult.error;
-        loginErrorMessage.classList.add("nothidden");
+        apiError(loginErrorMessage, endpoint, jsonResult.error);
       }
     })
-    .catch((error) => console.error("error en fetch", error));
+    .catch((error) => apiError(loginErrorMessage, endpoint, error.message));
 
   event.preventDefault();
 }
@@ -122,12 +120,10 @@ function processSignup(event) {
         window.alert("Signup correcto! Puedes logearte con tus credenciales");
         location.reload();
       } else {
-        console.error(`error de signup: ${jsonResult.error}`);
-        signupErrorMessage.innerText = jsonResult.error;
-        signupErrorMessage.classList.add("nothidden");
+        apiError(signupErrorMessage, endpoint, jsonResult.error);
       }
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => apiError(signupErrorMessage, endpoint, error.message));
 
   event.preventDefault();
 }
