@@ -43,14 +43,15 @@ function getFreezersByUser(email) {
       const jsonResult = JSON.parse(result);
       console.log(jsonResult);
       if (jsonResult != null && !jsonResult.error) {
-        console.log("ok");
-        if (!jsonResult.left) {
+        if (!jsonResult.length) {
           apiError(
             false,
             freezerBoxMessage,
             endpoint,
             "no hay frigorificos asociados a su cuenta"
           );
+        } else {
+          console.log("ok");
         }
       } else {
         apiError(
