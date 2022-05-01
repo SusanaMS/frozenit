@@ -7,6 +7,7 @@
     <title>FrozenIt</title>
     <link href="css/app.css" rel="stylesheet" type="text/css" />
     <script type="module" src="js/api/users.js" defer></script>
+    <script type="module" src="js/api/foods.js" defer></script>
     <script type="module" src="js/api/freezers.js" defer></script>
   </head>
   <body>
@@ -27,7 +28,10 @@
             <h3>Acciones</h3>
             <ul>
               <li>
-                <a> Comidas </a>
+                <a id="foodGet">Ver alimentos</a>
+              </li>
+              <li>
+                <a id="foodAdd">Añadir alimento</a>
               </li>
               <li>
                 <a id="freezerGet">Ver congeladores</a>
@@ -171,6 +175,47 @@
               </form>
 
               <div class="err" hidden id="freezerBoxAddMessage"></div>
+            </div>
+            <div id="foodBox" class="info-box" style="display: none">
+              <div class="err" hidden id="foodBoxMessage"></div>
+            </div>
+            <div id="foodBoxAdd" class="info-box" style="display: none">
+              <form id="addFoodForm">
+                <div class="group">
+                  <input
+                    id="foodName"
+                    minlength="4"
+                    placeholder="name"
+                    required="required"
+                    title="name"
+                    type="text"
+                  />
+                </div>
+                <label for="foodCategories">Categoría</label>
+                <select id="foodCategories" name="category">
+                  <option value="value1">Value 1</option>
+                  <option value="value2" selected>Value 2</option>
+                  <option value="value3">Value 3</option>
+                </select>
+                <div class="group">
+                  <textarea
+                    id="foodNotes"
+                    rows="4"
+                    minlength="10"
+                    cols="20"
+                    name="comment"
+                    form="addFoodForm"
+                    placeholder="Notas"
+                  ></textarea>
+                </div>
+                <button class="btn" id="submitAddFoodButton" type="submit">
+                  Resgistrar
+                </button>
+                <div class="err" hidden id="foodAddErrorMessage">
+                  <br />
+                </div>
+              </form>
+              <div class="err" hidden id="foodBoxAddMessage"></div>
             </div>
           </section>
         </div>
