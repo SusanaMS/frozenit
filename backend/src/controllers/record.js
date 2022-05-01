@@ -13,6 +13,19 @@ class RecordController {
     // devolvemos la lista sin los metadatatos
     res.send(recordList[0]);
   };
+
+  static getRecordsByUser = async (req, res, next) => {
+    const records = await RecordModel.find({
+      users_email: req.params.email,
+    });
+
+    if (!records.length) {
+      res.status(404).json({ error: "no se han encontrado registros" });
+      console.error("no se han encontrado registros");
+      return;
+    }
+    res.send(records[0]);
+  };
 }
 
 export { RecordController };
