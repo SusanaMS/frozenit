@@ -87,4 +87,13 @@ function checkJWT(jwtToken) {
   return true;
 }
 
-export { apiError, jsonArray2htmlTable, array2option, checkJWT };
+function getUserEmail() {
+  const email = JSON.parse(localStorage.getItem("sessionUserInfo")).email;
+  if (email == null) {
+    console.error("No se puede obtener el mail de usuario");
+    window.alert("Error al obtener el id de usuario");
+  }
+  return email;
+}
+
+export { apiError, jsonArray2htmlTable, array2option, checkJWT, getUserEmail };
