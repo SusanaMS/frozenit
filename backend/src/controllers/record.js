@@ -1,4 +1,6 @@
 import { RecordModel } from "../models/record.js";
+import { checkValidation } from "./common/utils.js";
+import { FoodModel } from "../models/food.js";
 
 class RecordController {
   static getAllRecords = async (req, res, next) => {
@@ -25,6 +27,37 @@ class RecordController {
       return;
     }
     res.send(records[0]);
+  };
+
+  static addRecord = async (req, res, next) => {
+    const isReqValid = checkValidation(req);
+
+    if (isReqValid != null) {
+      res.status(404).json({ error: isReqValid });
+      return;
+    }
+    console.log(req.body);
+
+    const { foodId, addDate } = req.body;
+
+    console.log(foodId);
+
+    // se tiene que obtener los días de expiracion
+    // para la categoria del elemento a añadir
+
+    const result = await RecordModel.findExpiration(foodId);
+    const { expiration_days } = result;
+    const recordExpirationDate = new Date(Date.parse(addDate));
+    recordExpirationDate.setDate(
+      recordExpirationDate.getDate() + expiration_days
+    );
+
+    console.debug(
+      expiration_days,
+      recordExpirationDate.toISOString().slice(0, 10)
+    );
+
+    res.status(404).json({ error: "prueba" });
   };
 }
 

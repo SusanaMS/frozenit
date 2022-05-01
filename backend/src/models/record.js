@@ -28,6 +28,19 @@ class RecordModel {
     return result[0];
   };
 
+  static findExpiration = async (foodId) => {
+    const sql = `
+      SELECT expiration_days
+        FROM categories
+      WHERE name_category = (
+        select categories_name_category from foods where id = ?)`;
+
+    // pasamos el SQL con el BIND a los valores
+    const result = await queryHandler.default(sql, [foodId]);
+
+    return result[0][0];
+  };
+
   static insert = async ({ email, freezerId, foodId = "" }) => {
     const sql = `INSERT INTO ${this.tableName}
         (users_email, freezer_id, foods_id) VALUES (?,?,?)`;
