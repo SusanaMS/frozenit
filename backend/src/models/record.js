@@ -27,6 +27,13 @@ class RecordModel {
     // return back the first row (user)
     return result[0];
   };
+
+  static insert = async ({ email, freezerId, foodId = "" }) => {
+    const sql = `INSERT INTO ${this.tableName}
+        (users_email, freezer_id, foods_id) VALUES (?,?,?)`;
+
+    return await queryHandler.default(sql, [email, freezerId, foodId]);
+  };
 }
 
 export { RecordModel };
