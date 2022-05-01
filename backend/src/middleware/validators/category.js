@@ -16,9 +16,7 @@ const validateAddCategory = [
   body("remarks")
     .optional()
     .isAlphanumeric()
-    .withMessage("Solo caracteres alfanúmericos")
-    .isLength({ min: 8 })
-    .withMessage("Longitud míníma 10"),
+    .withMessage("Solo caracteres alfanúmericos"),
 ];
 
 export { validateAddCategory };
