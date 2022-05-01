@@ -16,9 +16,7 @@ class RecordController {
   };
 
   static getRecordsByUser = async (req, res, next) => {
-    const records = await RecordModel.find({
-      users_email: req.params.email,
-    });
+    const records = await RecordModel.find(req.params.email);
 
     if (!records.length) {
       res.status(404).json({ error: "no se han encontrado registros" });

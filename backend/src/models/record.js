@@ -4,11 +4,23 @@ import { colValueBinder } from "../db/utils.js";
 class RecordModel {
   static tableName = "records";
 
-  static find = async (params = {}) => {
-    let sql = `SELECT * FROM ${this.tableName}`;
+  static find = async (email) => {
+    let sql = `
+       SELECT
+         id_record as ID,
+         (SELECT name_freezer FROM freezer WHERE id=records.freezer_id) as freezer,
+         (SELECT name_food FROM foods WHERE id =records.foods_id) as food,
+         DATE_FORMAT(add_date, '%Y-%m-%d') AS congelado,
+         DATE_FORMAT(expiration_date, '%Y-%m-%d') AS caduca
+       FROM records WHERE is_deleted = 0`;
 
-    console.log(sql);
-    return queryHandler.default(sql, null);
+    if (email == null) {
+      return queryHandler.default(sql, null);
+    }
+
+    sql += ` AND users_email = ?`;
+
+    return queryHandler.default(sql, [email]);
   };
 
   static findOne = async (params) => {
