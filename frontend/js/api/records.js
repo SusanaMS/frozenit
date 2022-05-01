@@ -7,17 +7,19 @@ import {
   getUserEmail,
 } from "../common/utils.js";
 
-const MODEL_ENPOINT = "records";
-const jwtToken = localStorage.getItem("jwtToken");
-const recordGet = document.getElementById("recordGet");
-const recordBox = document.getElementById("recordBox");
-const recordBoxMessage = document.getElementById("recordBoxMessage");
-const recordAdd = document.getElementById("recordAdd");
-const recordBoxAdd = document.getElementById("recordBoxAdd");
-const recordFreezer = document.getElementById("recordFreezer");
-const recordFood = document.getElementById("recordFood");
-const recordAddErrorMessage = document.getElementById("recordAddErrorMessage");
-const addRecordForm = document.getElementById("addRecordForm");
+const MODEL_ENPOINT = "records",
+  jwtToken = localStorage.getItem("jwtToken"),
+  recordGet = document.getElementById("recordGet"),
+  recordBox = document.getElementById("recordBox"),
+  recordTable = document.getElementById("recordTable"),
+  recordBoxMessage = document.getElementById("recordBoxMessage"),
+  recordAdd = document.getElementById("recordAdd"),
+  recordBoxAdd = document.getElementById("recordBoxAdd"),
+  recordFreezer = document.getElementById("recordFreezer"),
+  recordFood = document.getElementById("recordFood"),
+  recordFreezeDate = document.getElementById("recordFreezeDate"),
+  recordAddErrorMessage = document.getElementById("recordAddErrorMessage"),
+  addRecordForm = document.getElementById("addRecordForm");
 
 let apiHeaders;
 
@@ -61,18 +63,8 @@ function processRecordGet(event) {
             "no hay registros asociados a su cuenta"
           );
         } else {
-          const element = document.getElementById("recordTable");
-          if (element != null) {
-            element.remove();
-          }
-
-          const htmlTable = jsonArray2htmlTable(
-            jsonResult,
-            "recordTable",
-            null
-          );
-
-          recordBox.appendChild(htmlTable);
+          recordTable.innerHTML = "";
+          jsonArray2htmlTable(recordTable, jsonResult, null);
         }
       } else {
         apiError(
@@ -164,9 +156,11 @@ function clickRecordAdd(event) {
     return null;
   }
 
-  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then(
-    recordBoxAdd.setAttribute("style", "display: flex")
-  );
+  recordFreezeDate.valueOf().value = new Date().toISOString().slice(0, 10);
+
+  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then(() => {
+    recordBoxAdd.setAttribute("style", "display: flex");
+  });
 
   event.preventDefault();
 }

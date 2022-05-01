@@ -148,6 +148,7 @@
             </div>
 
             <div id="freezerBox" class="info-box" style="display: none">
+              <table id="freezerTable"></table>
               <div class="err" hidden id="freezerBoxMessage"></div>
             </div>
             <div id="freezerBoxAdd" class="info-box" style="display: none">
@@ -184,6 +185,7 @@
               <div class="err" hidden id="freezerBoxAddMessage"></div>
             </div>
             <div id="foodBox" class="info-box" style="display: none">
+              <table id="foodTable"></table>
               <div class="err" hidden id="foodBoxMessage"></div>
             </div>
             <div id="foodBoxAdd" class="info-box" style="display: none">
@@ -221,6 +223,7 @@
               <div class="err" hidden id="foodBoxAddMessage"></div>
             </div>
             <div id="recordBox" class="info-box" style="display: none">
+              <table id="recordTable"></table>
               <div class="err" hidden id="recordBoxMessage"></div>
             </div>
             <div id="recordBoxAdd" class="info-box" style="display: none">
@@ -232,6 +235,17 @@
                 <div class="group">
                   <label for="recordFood">Alimento</label>
                   <select id="recordFood" name="food"></select>
+                </div>
+                <div class="group">
+                  <label for="recordFreezeDate">Fecha congelación</label>
+                  <input
+                    type="date"
+                    id="recordFreezeDate"
+                    name="freeze date"
+                    value="2022-05-09"
+                    min="2022-01-01"
+                    max="2040-12-31"
+                  />
                 </div>
                 <button class="btn" id="submitAddRecordButton" type="submit">
                   Registrar

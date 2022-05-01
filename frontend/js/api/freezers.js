@@ -2,17 +2,16 @@
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
 import { apiError, jsonArray2htmlTable } from "../common/utils.js";
 
-const MODEL_ENPOINT = "freezers";
-const jwtToken = localStorage.getItem("jwtToken");
-const freezerGet = document.getElementById("freezerGet");
-const freezerAdd = document.getElementById("freezerAdd");
-const freezerBoxAdd = document.getElementById("freezerBoxAdd");
-const freezerBox = document.getElementById("freezerBox");
-const freezerBoxMessage = document.getElementById("freezerBoxMessage");
-const freezerAddErrorMessage = document.getElementById(
-  "freezerAddErrorMessage"
-);
-const addFreezerForm = document.getElementById("addFreezerForm");
+const MODEL_ENPOINT = "freezers",
+  jwtToken = localStorage.getItem("jwtToken"),
+  freezerGet = document.getElementById("freezerGet"),
+  freezerAdd = document.getElementById("freezerAdd"),
+  freezerBoxAdd = document.getElementById("freezerBoxAdd"),
+  freezerBox = document.getElementById("freezerBox"),
+  freezerTable = document.getElementById("freezerTable"),
+  freezerBoxMessage = document.getElementById("freezerBoxMessage"),
+  freezerAddErrorMessage = document.getElementById("freezerAddErrorMessage"),
+  addFreezerForm = document.getElementById("addFreezerForm");
 
 let apiHeaders;
 
@@ -67,18 +66,10 @@ function getFreezersByUser(email) {
             "no hay frigorificos asociados a su cuenta"
           );
         } else {
-          const element = document.getElementById("freezerTable");
-          if (element != null) {
-            element.remove();
-          }
+          // eliminamos el contenido previo de la tabla
+          freezerTable.innerHTML = "";
 
-          const htmlTable = jsonArray2htmlTable(
-            jsonResult,
-            "freezerTable",
-            deleteFreezer
-          );
-          console.log(htmlTable);
-          freezerBox.appendChild(htmlTable);
+          jsonArray2htmlTable(freezerTable, jsonResult, deleteFreezer);
         }
       } else {
         apiError(

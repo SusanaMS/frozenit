@@ -5,16 +5,17 @@ import {
   array2option,
 } from "../common/utils.js";
 
-const MODEL_ENPOINT = "foods";
-const jwtToken = localStorage.getItem("jwtToken");
-const foodGet = document.getElementById("foodGet");
-const foodCategories = document.getElementById("foodCategories");
-const foodAdd = document.getElementById("foodAdd");
-const foodBoxAdd = document.getElementById("foodBoxAdd");
-const foodBox = document.getElementById("foodBox");
-const foodBoxMessage = document.getElementById("foodBoxMessage");
-const foodAddErrorMessage = document.getElementById("foodAddErrorMessage");
-const addFoodForm = document.getElementById("addFoodForm");
+const MODEL_ENPOINT = "foods",
+  jwtToken = localStorage.getItem("jwtToken"),
+  foodGet = document.getElementById("foodGet"),
+  foodCategories = document.getElementById("foodCategories"),
+  foodAdd = document.getElementById("foodAdd"),
+  foodBoxAdd = document.getElementById("foodBoxAdd"),
+  foodBox = document.getElementById("foodBox"),
+  foodTable = document.getElementById("foodTable"),
+  foodBoxMessage = document.getElementById("foodBoxMessage"),
+  foodAddErrorMessage = document.getElementById("foodAddErrorMessage"),
+  addFoodForm = document.getElementById("addFoodForm");
 
 let apiHeaders;
 
@@ -54,14 +55,8 @@ function processFoodGet(event) {
             "no hay frigorificos asociados a su cuenta"
           );
         } else {
-          const element = document.getElementById("foodTable");
-          if (element != null) {
-            element.remove();
-          }
-
-          const htmlTable = jsonArray2htmlTable(jsonResult, "foodTable", null);
-          console.log(htmlTable);
-          foodBox.appendChild(htmlTable);
+          foodTable.innerHTML = "";
+          jsonArray2htmlTable(foodTable, jsonResult, null);
         }
       } else {
         apiError(

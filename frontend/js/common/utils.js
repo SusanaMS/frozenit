@@ -1,5 +1,4 @@
-const _table_ = document.createElement("table"),
-  _tr_ = document.createElement("tr"),
+const _tr_ = document.createElement("tr"),
   _th_ = document.createElement("th"),
   _td_ = document.createElement("td");
 
@@ -17,10 +16,8 @@ function apiError(isConnectError, errorDOM, endpoint, errorMessage) {
 }
 
 // https://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
-// Builds the HTML Table out of myList json data from Ivy restful service.
-function jsonArray2htmlTable(arr, domId, buttonFunc) {
-  const table = _table_.cloneNode(false),
-    columns = addAllColumnHeaders(arr, table);
+function jsonArray2htmlTable(table, arr, buttonFunc) {
+  const columns = addAllColumnHeaders(arr, table);
   let i = 0;
   let botonEliminar;
   for (; i < arr.length; ++i) {
@@ -32,7 +29,7 @@ function jsonArray2htmlTable(arr, domId, buttonFunc) {
       if (j === 0 && buttonFunc != null) {
         botonEliminar = document.createElement("button");
         botonEliminar.innerHTML = "Eliminar";
-        botonEliminar.setAttribute("id", `${domId}Delete-${celda}`);
+        botonEliminar.setAttribute("id", `${table.id}Delete-${celda}`);
         botonEliminar.onclick = buttonFunc;
         td.appendChild(botonEliminar);
       } else {
@@ -42,7 +39,7 @@ function jsonArray2htmlTable(arr, domId, buttonFunc) {
     }
     table.appendChild(tr);
   }
-  table.setAttribute("id", domId);
+
   return table;
 }
 
