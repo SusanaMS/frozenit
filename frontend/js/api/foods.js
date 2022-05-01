@@ -130,6 +130,9 @@ function processFoodAdd(event) {
 
   const foodName = document.getElementById("foodName").value;
   const foodNotes = document.getElementById("foodNotes").value;
+  const foodCategory = foodCategories.valueOf().value;
+
+  console.log(foodName, foodNotes, foodCategory);
 
   apiHeaders = new Headers();
   apiHeaders.append("Content-Type", API_CONTENT_TYPE);
@@ -137,7 +140,7 @@ function processFoodAdd(event) {
 
   const jsonRequest = JSON.stringify({
     name: foodName,
-    category: "Verduras",
+    category: foodCategory,
     remarks: foodNotes,
   });
 
