@@ -29,7 +29,7 @@ function jsonArray2htmlTable(arr, domId, buttonFunc) {
     for (; j < columns.length; ++j) {
       const td = _td_.cloneNode(false);
       const celda = arr[i][columns[j]] || "err";
-      if (j === 0) {
+      if (j === 0 && buttonFunc != null) {
         botonEliminar = document.createElement("button");
         botonEliminar.innerHTML = "Eliminar";
         botonEliminar.setAttribute("id", `${domId}Delete-${celda}`);
