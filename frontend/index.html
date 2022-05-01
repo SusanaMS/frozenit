@@ -223,6 +223,25 @@
             <div id="recordBox" class="info-box" style="display: none">
               <div class="err" hidden id="recordBoxMessage"></div>
             </div>
+            <div id="recordBoxAdd" class="info-box" style="display: none">
+              <form id="addRecordForm">
+                <div class="group">
+                  <label for="recordFreezer">Congelador</label>
+                  <select id="recordFreezer" name="freezer"></select>
+                </div>
+                <div class="group">
+                  <label for="recordFood">Alimento</label>
+                  <select id="recordFood" name="food"></select>
+                </div>
+                <button class="btn" id="submitAddRecordButton" type="submit">
+                  Registrar
+                </button>
+                <div class="err" hidden id="recordAddErrorMessage">
+                  <br />
+                </div>
+              </form>
+              <div class="err" hidden id="recordBoxAddMessage"></div>
+            </div>
           </section>
         </div>
       </main>
