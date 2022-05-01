@@ -20,4 +20,6 @@ recordEndPoint.post(
   RecordController.addRecord
 );
 
+recordEndPoint.delete("/id/:id", auth(), RecordController.deleteRecord);
+
 export { recordEndPoint };

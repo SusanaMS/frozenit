@@ -67,6 +67,17 @@ class RecordController {
       fechaExpiracion: params.expirationDate,
     });
   };
+
+  static deleteRecord = async (req, res, next) => {
+    const result = await RecordModel.update(req.params.id);
+    if (!result[0].affectedRows) {
+      res.status(404).json({ error: "error en al registrar en congelador" });
+      console.error("error en al registrar en congelador");
+      return;
+    }
+
+    res.status(201).json({ mensaje: "descongelado correcto" });
+  };
 }
 
 export { RecordController };

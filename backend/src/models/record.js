@@ -59,6 +59,12 @@ class RecordModel {
       expirationDate,
     ]);
   };
+
+  static update = async (id) => {
+    const sql = `UPDATE records SET is_deleted = 1 WHERE id_record = ?`;
+
+    return await queryHandler.default(sql, [id]);
+  };
 }
 
 export { RecordModel };
