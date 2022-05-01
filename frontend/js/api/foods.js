@@ -99,8 +99,19 @@ function clickFoodAdd(event) {
       if (jsonResult.error != null) {
         apiError(false, foodAddErrorMessage, endpoint, jsonResult.error);
       } else {
-        foodBoxAdd.setAttribute("style", "display: flex");
         console.log(jsonResult);
+        // https://stackoverflow.com/questions/33872615/are-es6-array-comprehensions-no-longer-valid/33873355#33873355
+        const categories = jsonResult.map(({ name_category }) => name_category);
+        console.log(categories);
+        // https://stackoverflow.com/questions/8674618/adding-options-to-select-with-javascript
+        categories.forEach((category) => {
+          console.log(category);
+          const categoryOption = document.createElement("option");
+          categoryOption.value = category;
+          categoryOption.innerHTML = category;
+          foodCategories.appendChild(categoryOption);
+        });
+        foodBoxAdd.setAttribute("style", "display: flex");
       }
     })
     .catch((error) => {
