@@ -1,6 +1,5 @@
 import { RecordModel } from "../models/record.js";
 import { checkValidation } from "./common/utils.js";
-import { FoodModel } from "../models/food.js";
 
 class RecordController {
   static getAllRecords = async (req, res, next) => {
@@ -36,28 +35,37 @@ class RecordController {
       res.status(404).json({ error: isReqValid });
       return;
     }
-    console.log(req.body);
 
-    const { foodId, addDate } = req.body;
-
-    console.log(foodId);
+    let params = req.body;
+    const { foodId, addDate } = params;
 
     // se tiene que obtener los días de expiracion
     // para la categoria del elemento a añadir
 
-    const result = await RecordModel.findExpiration(foodId);
-    const { expiration_days } = result;
+    const resultExp = await RecordModel.findExpiration(foodId);
+    const { expiration_days } = resultExp;
+
+    // calculamos el expiration date y se lo añadimos a los parametros
     const recordExpirationDate = new Date(Date.parse(addDate));
     recordExpirationDate.setDate(
       recordExpirationDate.getDate() + expiration_days
     );
 
-    console.debug(
-      expiration_days,
-      recordExpirationDate.toISOString().slice(0, 10)
-    );
+    params.expirationDate = recordExpirationDate.toISOString().slice(0, 10);
 
-    res.status(404).json({ error: "prueba" });
+    console.log(params);
+
+    const result = await RecordModel.insert(params);
+    if (!result[0].affectedRows) {
+      res.status(404).json({ error: "error en al registrar en congelador" });
+      console.error("error en al registrar en congelador");
+      return;
+    }
+
+    res.status(201).json({
+      mensaje: "registro en congelador correcto",
+      fechaExpiracion: params.expirationDate,
+    });
   };
 }
 
