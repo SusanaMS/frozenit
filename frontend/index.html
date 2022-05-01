@@ -9,6 +9,7 @@
     <script type="module" src="js/api/users.js" defer></script>
     <script type="module" src="js/api/foods.js" defer></script>
     <script type="module" src="js/api/freezers.js" defer></script>
+    <script type="module" src="js/api/records.js" defer></script>
   </head>
   <body>
     <div class="dashboard">
@@ -38,6 +39,12 @@
               </li>
               <li>
                 <a id="freezerAdd">Añadir congelador</a>
+              </li>
+              <li>
+                <a id="recordGet">Ver registros</a>
+              </li>
+              <li>
+                <a id="recordAdd">Añadir registro</a>
               </li>
             </ul>
           </section>
@@ -212,6 +219,9 @@
                 </div>
               </form>
               <div class="err" hidden id="foodBoxAddMessage"></div>
+            </div>
+            <div id="recordBox" class="info-box" style="display: none">
+              <div class="err" hidden id="recordBoxMessage"></div>
             </div>
           </section>
         </div>

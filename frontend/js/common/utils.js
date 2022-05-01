@@ -78,4 +78,13 @@ function array2option(arrayValues, selectNode) {
   return null;
 }
 
-export { apiError, jsonArray2htmlTable, array2option };
+function checkJWT(jwtToken) {
+  if (jwtToken == null) {
+    console.error("debe estar logeado");
+    window.alert("Debe estar logeado");
+    return false;
+  }
+  return true;
+}
+
+export { apiError, jsonArray2htmlTable, array2option, checkJWT };
