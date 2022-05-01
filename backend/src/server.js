@@ -7,7 +7,6 @@ import cors from "cors";
 // la primera importación del modulo de conexión a la BBDD se realiza solo
 // para comprobar la conectividad a la BD (side effects)
 import "./db/connection.js";
-import { EndPointNotFoundException } from "./exceptions/EndPointNotFoundException.js";
 
 import { userEndPoint } from "./endpoints/user.js";
 import { categoryEndPoint } from "./endpoints/category.js";
@@ -47,8 +46,10 @@ app.use(`/api/v1/records`, recordEndPoint);
 
 // controlamos los posibles 404
 app.all("*", (req, res, next) => {
-  const err = new EndPointNotFoundException(404, "EndPoint no accesible");
-  next(err);
+  const errorMessage = "endpoint no accesible";
+  console.error(errorMessage);
+  res.status(404).json({ error: errorMessage });
+  return null;
 });
 // Arrancamos el servidor ecuchando por el puerto antes indicado
 app.listen(port, () => console.log(`Running on port ${port}!`));
