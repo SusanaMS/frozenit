@@ -138,7 +138,14 @@
 			"name": "allUsers",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYW5hc3VzQGdtYWlsLmNvbSIsImlhdCI6MTY1MTI0MzIxNSwiZXhwIjoxNjUxNDE2MDE1fQ.GQY3a93_KQ9uLgalbUOi8id-Q_NcpsmDOxfxN2FFKNE",
+						"type": "default",
+						"disabled": true
+					}
+				],
 				"url": {
 					"raw": "http://localhost:3000/api/v1/users/all",
 					"protocol": "http",
@@ -464,6 +471,29 @@
 			"response": []
 		},
 		{
+			"name": "freezerByUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/freezers/email/anasus@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"freezers",
+						"email",
+						"anasus@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "addFreezer",
 			"protocolProfileBehavior": {
 				"strictSSL": false
@@ -570,6 +600,115 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "recordsByUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/records/email/anasus@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"records",
+						"email",
+						"anasus@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addRecord",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"anasus@gmail.com\",\r\n    \"freezerId\": \"2\",\r\n    \"foodId\": 1,\r\n    \"addDate\": \"2022-05-01\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/records/add/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"records",
+						"add",
+						""
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "qweweqeqw",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteRecord",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/records/id/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"records",
+						"id",
+						"2"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "qweweqeqw",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -577,7 +716,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYW5hc3VzQGdtYWlsLmNvbSIsImlhdCI6MTY1MDcyNzgwNywiZXhwIjoxNjUwOTAwNjA3fQ.acJn8zOuyBs5OI71CfZ1BkTlLQ8nHoLFQ5yvrKcPKWc",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYW5hc3VzQGdtYWlsLmNvbSIsImlhdCI6MTY1MTMxMTc1OCwiZXhwIjoxNjUxNDg0NTU4fQ.wVL9a_FFIGUEydEfavKC7sWRzupxNaCDERPhZmcay94",
 				"type": "string"
 			}
 		]
