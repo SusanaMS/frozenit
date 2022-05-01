@@ -1,6 +1,6 @@
 import { Router as EndPointRouter } from "express";
 import { FreezerController } from "../controllers/freezer.js";
-import { validateAddFreezer } from "../middleware/freezer/validators.js";
+import { validateAddFreezer } from "../middleware/validators/freezer.js";
 import { auth } from "../middleware/auth.js";
 
 // https://expressjs.com/es/api.html#express.router

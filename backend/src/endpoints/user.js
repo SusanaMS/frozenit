@@ -4,7 +4,7 @@ import { auth } from "../middleware/auth.js";
 import {
   validateLogin,
   validateSignUp,
-} from "../middleware/user/validators.js";
+} from "../middleware/validators/user.js";
 // https://expressjs.com/es/api.html#express.router
 const userEndPoint = EndPointRouter({ caseSensitive: true });
 

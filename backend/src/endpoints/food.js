@@ -1,6 +1,6 @@
 import { Router as EndPointRouter } from "express";
 import { FoodController } from "../controllers/food.js";
-import { validateAddFood } from "../middleware/food/validators.js";
+import { validateAddFood } from "../middleware/validators/food.js";
 
 // https://expressjs.com/es/api.html#express.router
 const foodEndPoint = EndPointRouter({ caseSensitive: true });

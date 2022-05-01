@@ -1,6 +1,6 @@
 import { Router as EndPointRouter } from "express";
 import { CategoryController } from "../controllers/category.js";
-import { validateAddCategory } from "../middleware/category/validators.js";
+import { validateAddCategory } from "../middleware/validators/category.js";
 
 // https://expressjs.com/es/api.html#express.router
 const categoryEndPoint = EndPointRouter({ caseSensitive: true });
