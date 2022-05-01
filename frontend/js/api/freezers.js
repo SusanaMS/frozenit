@@ -18,6 +18,11 @@ let apiHeaders;
 
 freezerGet.addEventListener("click", processFreezerGet);
 freezerAdd.addEventListener("click", () => {
+  if (jwtToken == null) {
+    console.error("debe estar logeado");
+    window.alert("Debe estar logeado");
+    return;
+  }
   freezerBoxAdd.setAttribute("style", "display: flex");
 });
 addFreezerForm.addEventListener("submit", processFreezerAdd);
@@ -25,6 +30,7 @@ addFreezerForm.addEventListener("submit", processFreezerAdd);
 function processFreezerGet() {
   if (jwtToken == null) {
     console.error("debe estar logeado");
+    window.alert("Debe estar logeado");
     return;
   }
   new Promise((resolve) => {
@@ -91,6 +97,11 @@ function getFreezersByUser(email) {
 }
 
 function deleteFreezer(elem) {
+  if (jwtToken == null) {
+    console.error("debe estar logeado");
+    window.alert("Debe estar logeado");
+    return;
+  }
   if (elem.path == null) {
     alert("Error al obtener el id del freezer");
     return null;
@@ -153,6 +164,11 @@ function deleteFreezer(elem) {
 }
 
 function processFreezerAdd(event) {
+  if (jwtToken == null) {
+    console.error("debe estar logeado");
+    window.alert("Debe estar logeado");
+    return;
+  }
   const freezerName = document.getElementById("freezerName").value;
   const freezerNotes = document.getElementById("freezerNotes").value;
   const email = JSON.parse(localStorage.getItem("sessionUserInfo")).email;
