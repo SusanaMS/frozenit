@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-const checkValidation = (req, res) => {
+const checkValidation = (req) => {
   const result = validationResult(req).formatWith(errorFormatter);
   if (!result.isEmpty()) {
     console.error({ errors: result.array() });
@@ -8,7 +8,7 @@ const checkValidation = (req, res) => {
   }
 };
 
-const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+const errorFormatter = ({ location, msg, param }) => {
   return `${location}[${param}]: ${msg}`;
 };
 
