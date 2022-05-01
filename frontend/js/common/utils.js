@@ -68,4 +68,14 @@ function addAllColumnHeaders(arr, table) {
   return columnSet;
 }
 
-export { apiError, jsonArray2htmlTable };
+function array2option(arrayValues, selectNode) {
+  arrayValues.forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.innerHTML = value;
+    selectNode.appendChild(option);
+  });
+  return null;
+}
+
+export { apiError, jsonArray2htmlTable, array2option };

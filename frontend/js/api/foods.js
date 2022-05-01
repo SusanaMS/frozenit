@@ -1,5 +1,9 @@
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
-import { apiError, jsonArray2htmlTable } from "../common/utils.js";
+import {
+  apiError,
+  jsonArray2htmlTable,
+  array2option,
+} from "../common/utils.js";
 
 const MODEL_ENPOINT = "foods";
 const jwtToken = localStorage.getItem("jwtToken");
@@ -102,15 +106,7 @@ function clickFoodAdd(event) {
         console.log(jsonResult);
         // https://stackoverflow.com/questions/33872615/are-es6-array-comprehensions-no-longer-valid/33873355#33873355
         const categories = jsonResult.map(({ name_category }) => name_category);
-        console.log(categories);
-        // https://stackoverflow.com/questions/8674618/adding-options-to-select-with-javascript
-        categories.forEach((category) => {
-          console.log(category);
-          const categoryOption = document.createElement("option");
-          categoryOption.value = category;
-          categoryOption.innerHTML = category;
-          foodCategories.appendChild(categoryOption);
-        });
+        array2option(categories, foodCategories);
         foodBoxAdd.setAttribute("style", "display: flex");
       }
     })
