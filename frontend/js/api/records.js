@@ -1,7 +1,7 @@
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
 import {
   apiError,
-  jsonArray2htmlTable,
+  jsonArray2htmlTable2,
   json2option,
   checkJWT,
   getUserEmail,
@@ -64,7 +64,7 @@ function processRecordGet(event) {
           );
         } else {
           recordTable.innerHTML = "";
-          jsonArray2htmlTable(recordTable, jsonResult, unfreeze);
+          jsonArray2htmlTable2(recordTable, jsonResult, unfreeze);
         }
       } else {
         apiError(

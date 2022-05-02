@@ -47,6 +47,45 @@ function jsonArray2htmlTable(table, arr, buttonFunc) {
   return table;
 }
 
+function jsonArray2htmlTable2(table, arr, buttonFunc) {
+  const columns = addAllColumnHeaders(arr, table);
+
+  const idColumnIndex = columns.indexOf("ID");
+  console.log(columns, idColumnIndex);
+  let i = 0;
+  let botonEliminar;
+  for (; i < arr.length; ++i) {
+    const tr = _tr_.cloneNode(false);
+    let j = 0;
+    let idCelda = null;
+    for (; j <= columns.length; ++j) {
+      const td = _td_.cloneNode(false);
+      const celda = arr[i][columns[j]] || "-";
+
+      // si la columan tratada corresponde a donde está posicionada la ID
+      // guardamos la id para setearla al boton/es
+
+      idCelda = idCelda == null && j == idColumnIndex ? celda : idCelda;
+
+      td.appendChild(document.createTextNode(celda));
+
+      // creamos una nueva columna para los botones
+      if (j === columns.length && buttonFunc != null) {
+        botonEliminar = document.createElement("button");
+        botonEliminar.innerHTML = "Eliminar";
+        botonEliminar.setAttribute("id", `${table.id}Delete-${idCelda}`);
+        botonEliminar.onclick = buttonFunc;
+        td.appendChild(botonEliminar);
+      }
+
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+
+  return table;
+}
+
 // Adds a header row to the table and returns the set of columns.
 // Need to do union of keys from all records as some records may not contain
 // all records
@@ -111,6 +150,7 @@ function getUserEmail() {
 export {
   apiError,
   jsonArray2htmlTable,
+  jsonArray2htmlTable2,
   array2option,
   json2option,
   checkJWT,
