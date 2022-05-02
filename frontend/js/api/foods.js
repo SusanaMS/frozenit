@@ -73,6 +73,8 @@ function processFoodGet(event) {
 }
 
 function clickFoodAdd(event) {
+  foodCategories.options.length = 0;
+
   if (jwtToken == null) {
     console.error("debe estar logeado");
     window.alert("Debe estar logeado");
