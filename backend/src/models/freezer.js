@@ -5,7 +5,16 @@ class FreezerModel {
   static tableName = "freezer";
 
   static find = async (params = {}) => {
-    let sql = `SELECT * FROM ${this.tableName}`;
+    let sql = `
+       SELECT 
+           id,
+           name_freezer as freezer,
+           brand,
+           model,
+           stars,
+           slots,
+           notes
+       FROM ${this.tableName}`;
 
     if (!Object.keys(params).length) {
       return queryHandler.default(sql, null);
