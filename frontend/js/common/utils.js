@@ -20,40 +20,16 @@ function apiError(isConnectError, errorDOM, endpoint, errorMessage) {
 }
 
 // https://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
-function jsonArray2htmlTable(table, arr, buttonFunc) {
+function jsonArray2htmlTable(table, arr, buttonFuncArray) {
   const columns = addAllColumnHeaders(arr, table);
-  let i = 0;
-  let botonEliminar;
-  for (; i < arr.length; ++i) {
-    const tr = _tr_.cloneNode(false);
-    let j = 0;
-    for (; j < columns.length; ++j) {
-      const td = _td_.cloneNode(false);
-      const celda = arr[i][columns[j]] || "err";
-      if (j === 0 && buttonFunc != null) {
-        botonEliminar = document.createElement("button");
-        botonEliminar.innerHTML = "Eliminar";
-        botonEliminar.setAttribute("id", `${table.id}Delete-${celda}`);
-        botonEliminar.onclick = buttonFunc;
-        td.appendChild(botonEliminar);
-      } else {
-        td.appendChild(document.createTextNode(celda));
-      }
-      tr.appendChild(td);
-    }
-    table.appendChild(tr);
+
+  let idColumnIndex = -1;
+  if (buttonFuncArray != null) {
+    idColumnIndex = columns.map((col) => col.toLowerCase()).indexOf("id");
   }
 
-  return table;
-}
-
-function jsonArray2htmlTable2(table, arr, buttonFuncArray) {
-  const columns = addAllColumnHeaders(arr, table);
-
-  const idColumnIndex = columns.indexOf("ID");
-  console.log(columns, idColumnIndex);
+  console.debug(columns, idColumnIndex);
   let i = 0;
-  let botonEliminar;
   for (; i < arr.length; ++i) {
     const tr = _tr_.cloneNode(false);
     let j = 0;
@@ -65,12 +41,16 @@ function jsonArray2htmlTable2(table, arr, buttonFuncArray) {
       // si la columan tratada corresponde a donde está posicionada la ID
       // guardamos la id para setearla al boton/es
 
-      idCelda = idCelda == null && j == idColumnIndex ? celda : idCelda;
+      idCelda = idCelda == null && j === idColumnIndex ? celda : idCelda;
 
       td.appendChild(document.createTextNode(celda));
 
       // creamos una nueva columna para los botones
-      if (j === columns.length && buttonFuncArray != null) {
+      if (
+        j === columns.length &&
+        buttonFuncArray != null &&
+        idColumnIndex >= 0
+      ) {
         buttonFuncArray.forEach((buttonData) => {
           const button = document.createElement("button");
           button.innerHTML = buttonData.name;
@@ -152,7 +132,6 @@ function getUserEmail() {
 export {
   apiError,
   jsonArray2htmlTable,
-  jsonArray2htmlTable2,
   array2option,
   json2option,
   checkJWT,
