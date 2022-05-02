@@ -32,7 +32,7 @@ function processFreezerGet() {
     window.alert("Debe estar logeado");
     return;
   }
-  new Promise((resolve) => {
+  new Promise(() => {
     apiHeaders = new Headers();
     apiHeaders.append("Content-Type", API_CONTENT_TYPE);
     apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
@@ -69,14 +69,24 @@ function getFreezersByUser(email) {
           // eliminamos el contenido previo de la tabla
           freezerTable.innerHTML = "";
 
-          jsonArray2htmlTable(freezerTable, jsonResult, deleteFreezer);
+          jsonArray2htmlTable(
+            freezerTable,
+            jsonResult,
+            [
+              { func: deleteFreezer, name: "Eliminar" },
+              { func: modifyFreezer, name: "Modificar" },
+            ],
+            ["users_email", "brand"]
+          );
         }
       } else {
         apiError(
           false,
           freezerBoxMessage,
           endpoint,
-          jsonResult.error || "no se ha obtenido respuesta"
+          jsonResult != null
+            ? jsonResult.error || "sin error definido"
+            : "no se ha obtenido respuesta"
         );
       }
     })
@@ -85,6 +95,19 @@ function getFreezersByUser(email) {
     );
 
   return null;
+}
+
+function modifyFreezer(elem) {
+  if (jwtToken == null) {
+    console.error("debe estar logeado");
+    window.alert("Debe estar logeado");
+    return;
+  }
+  if (elem.path == null) {
+    alert("Error al obtener el id del freezer");
+    return null;
+  }
+  console.log("modifyFreezer");
 }
 
 function deleteFreezer(elem) {
@@ -144,7 +167,9 @@ function deleteFreezer(elem) {
           false,
           freezerBoxMessage,
           endpoint,
-          jsonResult.error || "no se ha obtenido respuesta"
+          jsonResult != null
+            ? jsonResult.error || "sin error definido"
+            : "no se ha obtenido respuesta"
         );
       }
     })
