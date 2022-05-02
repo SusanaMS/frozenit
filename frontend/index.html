@@ -166,13 +166,56 @@
             <div id="freezerBoxAdd" class="info-box" style="display: none">
               <form id="addFreezerForm">
                 <div class="group">
+                  <label for="freezerName">Nombre: </label>
                   <input
                     id="freezerName"
                     minlength="4"
-                    placeholder="name"
+                    placeholder="Nombre"
                     required="required"
-                    title="name"
+                    title="Nombre"
                     type="text"
+                  />
+                </div>
+                <div class="group">
+                  <label for="freezerBrand">Marca: </label>
+                  <input
+                    id="freezerBrand"
+                    minlength="2"
+                    placeholder="Marca"
+                    title="Marca"
+                    type="text"
+                  />
+                </div>
+                <div class="group">
+                  <label for="freezerModel">Modelo: </label>
+                  <input
+                    id="freezerModel"
+                    minlength="2"
+                    placeholder="Modelo"
+                    title="Modelo"
+                    type="text"
+                  />
+                </div>
+                <div class="group">
+                  <label for="freezerStars">Estrellas: </label>
+                  <input
+                    id="freezerStars"
+                    type="number"
+                    title="Estrellas"
+                    min="1"
+                    max="5"
+                    value="5"
+                  />
+                </div>
+                <div class="group">
+                  <label for="freezerSlots">Cajones: </label>
+                  <input
+                    id="freezerSlots"
+                    type="number"
+                    title="Cajones"
+                    min="1"
+                    max="10"
+                    value="3"
                   />
                 </div>
                 <div class="group">
@@ -180,7 +223,7 @@
                     id="freezerNotes"
                     rows="4"
                     minlength="10"
-                    cols="20"
+                    cols="30"
                     name="comment"
                     form="addFreezerForm"
                     placeholder="Notas"

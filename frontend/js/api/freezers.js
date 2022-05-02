@@ -51,6 +51,8 @@ function getFreezersByUser(email) {
 
   const endpoint = `${BASE_ENDPOINT}/${MODEL_ENPOINT}/email/${email}`;
 
+  console.debug(endpoint, requestOptions);
+
   fetch(endpoint, requestOptions)
     .then((response) => response.text())
     .then((result) => {
@@ -185,22 +187,39 @@ function processFreezerAdd(event) {
     window.alert("Debe estar logeado");
     return;
   }
-  const freezerName = document.getElementById("freezerName").value;
-  const freezerNotes = document.getElementById("freezerNotes").value;
+
   const email = JSON.parse(localStorage.getItem("sessionUserInfo")).email;
   if (email == null) {
     alert("Error al obtener el id de usuario");
     return null;
   }
-  console.log(freezerNotes, freezerName);
+  const freezerName = document.getElementById("freezerName").value,
+    freezerBrand = document.getElementById("freezerBrand").value,
+    freezerModel = document.getElementById("freezerModel").value,
+    freezerStars = document.getElementById("freezerStars").value,
+    freezerSlots = document.getElementById("freezerSlots").value,
+    freezerNotes = document.getElementById("freezerNotes").value;
+
+  console.debug(
+    freezerName,
+    freezerBrand,
+    freezerModel,
+    freezerStars,
+    freezerSlots,
+    freezerNotes
+  );
 
   apiHeaders = new Headers();
   apiHeaders.append("Content-Type", API_CONTENT_TYPE);
   apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
 
   const jsonRequest = JSON.stringify({
-    name: freezerName,
     email: email,
+    name: freezerName,
+    brand: freezerBrand,
+    model: freezerModel,
+    stars: freezerStars,
+    slots: freezerSlots,
     notes: freezerNotes,
   });
 
