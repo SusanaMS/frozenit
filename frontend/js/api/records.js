@@ -64,7 +64,7 @@ function processRecordGet(event) {
           );
         } else {
           recordTable.innerHTML = "";
-          jsonArray2htmlTable(recordTable, jsonResult, null);
+          jsonArray2htmlTable(recordTable, jsonResult, unfreeze);
         }
       } else {
         apiError(
@@ -180,7 +180,7 @@ function clickRecordAdd(event) {
   event.preventDefault();
 }
 
-function processRecordAdd(even) {
+function processRecordAdd(event) {
   if (!checkJWT(jwtToken)) {
     return null;
   }
@@ -244,5 +244,64 @@ function processRecordAdd(even) {
       apiError(true, recordAddErrorMessage, endpoint, error.message)
     );
 
-  even.preventDefault();
+  event.preventDefault();
+}
+
+function unfreeze(event) {
+  if (jwtToken == null) {
+    console.error("debe estar logeado");
+    window.alert("Debe estar logeado");
+    return;
+  }
+
+  if (event.path == null) {
+    alert("Error al obtener el id del freezer");
+    return null;
+  }
+
+  let idAeliminar;
+
+  try {
+    idAeliminar = event.path[0].id.split("-")[1];
+  } catch (error) {
+    alert("Error al obtener el id del freezer");
+    return null;
+  }
+
+  console.log(`Descongelando id: ${idAeliminar}`);
+
+  apiHeaders = new Headers();
+  apiHeaders.append("Content-Type", API_CONTENT_TYPE);
+  apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: apiHeaders,
+    body: "",
+    redirect: "follow",
+  };
+
+  const endpoint = `${BASE_ENDPOINT}/${MODEL_ENPOINT}/id/${idAeliminar}`;
+
+  fetch(endpoint, requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      const jsonResult = JSON.parse(result);
+      console.log(jsonResult);
+      if (jsonResult != null && !jsonResult.error) {
+        window.alert("Descongelado de alimento correcto");
+        processRecordGet(event);
+      } else {
+        apiError(
+          false,
+          recordBoxMessage,
+          endpoint,
+          jsonResult.error || "no se ha obtenido respuesta"
+        );
+      }
+    })
+    .catch((error) =>
+      apiError(true, recordBoxMessage, endpoint, "kkkkk" + error.message)
+    );
+  return null;
 }
