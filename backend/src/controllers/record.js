@@ -67,10 +67,11 @@ class RecordController {
   };
 
   static deleteRecord = async (req, res, next) => {
+    console.debug(`id: ${req.params.id}`);
     const result = await RecordModel.update(req.params.id);
     if (!result[0].affectedRows) {
-      res.status(404).json({ error: "error en al registrar en congelador" });
-      console.error("error en al registrar en congelador");
+      res.status(404).json({ error: "error en al descongelar alimento" });
+      console.error("error en al descongelar alimento");
       return;
     }
 
