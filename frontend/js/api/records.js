@@ -2,7 +2,7 @@ import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
 import {
   apiError,
   jsonArray2htmlTable,
-  array2option,
+  json2option,
   checkJWT,
   getUserEmail,
 } from "../common/utils.js";
@@ -99,8 +99,6 @@ async function recordFreezerSelect(email) {
 
   const endpoint = `${BASE_ENDPOINT}/freezers/email/${email}`;
 
-  let userFreezers;
-
   // https://stackoverflow.com/questions/59650572/how-to-wait-for-response-of-fetch-in-async-function
   console.log(endpoint, requestOptions);
   const fecthFreezers = async (args) => {
@@ -111,9 +109,11 @@ async function recordFreezerSelect(email) {
         if (jsonResult.error != null) {
           apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
         } else {
-          console.log(jsonResult);
-          userFreezers = jsonResult.map(({ name_freezer }) => name_freezer);
-          array2option(userFreezers, recordFreezer);
+          let jsonObject = [];
+          jsonResult.forEach((opt) =>
+            jsonObject.push({ id: opt.id, value: opt.name_freezer })
+          );
+          json2option(jsonObject, recordFreezer);
         }
       })
       .catch((error) => {
@@ -121,10 +121,7 @@ async function recordFreezerSelect(email) {
       });
   };
 
-  const data = await fecthFreezers();
-  console.log(":::>", userFreezers);
-
-  return userFreezers;
+  await fecthFreezers();
 }
 
 async function recordFoodSelect() {
@@ -140,8 +137,6 @@ async function recordFoodSelect() {
 
   const endpoint = `${BASE_ENDPOINT}/foods/all`;
 
-  let foods;
-
   const fecthFoods = async (args) => {
     const res = await fetch(endpoint, requestOptions)
       .then((response) => response.text())
@@ -150,21 +145,18 @@ async function recordFoodSelect() {
         if (jsonResult.error != null) {
           apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
         } else {
-          console.log(jsonResult);
-          foods = jsonResult.map(({ name_food }) => name_food);
-          array2option(foods, recordFood);
-          return foods;
+          let jsonObject = [];
+          jsonResult.forEach((opt) => {
+            jsonObject.push({ id: opt.id, value: opt.name_food });
+          });
+          json2option(jsonObject, recordFood);
         }
       })
       .catch((error) => {
         apiError(true, recordAddErrorMessage, endpoint, error.message);
       });
   };
-
-  const data = await fecthFoods();
-  console.log(":::>", foods);
-
-  return foods;
+  await fecthFoods();
 }
 
 function clickRecordAdd(event) {
@@ -179,12 +171,12 @@ function clickRecordAdd(event) {
 
   recordFreezeDate.valueOf().value = new Date().toISOString().slice(0, 10);
 
-  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then(
-    (selectValues) => {
-      console.log("------->", selectValues);
-      recordBoxAdd.setAttribute("style", "display: flex");
-    }
-  );
+  // con la combianción async / await / Promise.all podemos lanzar las fecth
+  // de forma simultanea pero esperamos a que todas se completen para mostrar
+  // el formulario con las option ya metidas en las select
+  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then(() => {
+    recordBoxAdd.setAttribute("style", "display: flex");
+  });
 
   event.preventDefault();
 }
@@ -199,8 +191,9 @@ function processRecordAdd(even) {
     return null;
   }
 
-  const recordFreezer = document.getElementById("recordFreezer").value;
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/selectedIndex
+  const freezerId = recordFreezer[recordFreezer.selectedIndex].id;
+  const foodId = recordFood[recordFood.selectedIndex].id;
 
-  console.log(">>>>>>>", recordFreezer);
   even.preventDefault();
 }
