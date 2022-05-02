@@ -80,7 +80,7 @@ function json2option(jsonData, selectNode) {
     const option = document.createElement("option");
     option.value = opt.value;
     option.innerHTML = opt.value;
-    option.id = opt.id;
+    option.id = `${opt.value}-${opt.id}`;
     selectNode.appendChild(option);
   });
   return null;

@@ -192,8 +192,8 @@ function processRecordAdd(even) {
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/selectedIndex
-  const freezerId = recordFreezer[recordFreezer.selectedIndex].id;
-  const foodId = recordFood[recordFood.selectedIndex].id;
+  const freezerId = recordFreezer[recordFreezer.selectedIndex].id.split("-")[1];
+  const foodId = recordFood[recordFood.selectedIndex].id.split("-")[1];
 
   even.preventDefault();
 }
