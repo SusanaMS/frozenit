@@ -192,8 +192,54 @@ function processRecordAdd(even) {
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/selectedIndex
-  const freezerId = recordFreezer[recordFreezer.selectedIndex].id.split("-")[1];
-  const foodId = recordFood[recordFood.selectedIndex].id.split("-")[1];
+  const freezerId = parseInt(
+    recordFreezer[recordFreezer.selectedIndex].id.split("-")[1]
+  );
+
+  const foodId = parseInt(
+    recordFood[recordFood.selectedIndex].id.split("-")[1]
+  );
+
+  const addDate = recordFreezeDate.value;
+
+  console.debug(
+    `email: ${email} freezerdId: ${freezerId} foodId: ${foodId} addDate: ${addDate}`
+  );
+
+  apiHeaders = new Headers();
+  apiHeaders.append("Content-Type", API_CONTENT_TYPE);
+  apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
+
+  const jsonRequest = JSON.stringify({
+    email: email,
+    freezerId: freezerId,
+    foodId: foodId,
+    addDate: addDate,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: apiHeaders,
+    body: jsonRequest,
+    redirect: "follow",
+  };
+
+  const endpoint = `${BASE_ENDPOINT}/${MODEL_ENPOINT}/add/`;
+
+  fetch(endpoint, requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      const jsonResult = JSON.parse(result);
+      console.log(jsonResult);
+      if (jsonResult.error == null) {
+        window.alert("alimento congelado correctamente!");
+      } else {
+        apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
+      }
+    })
+    .catch((error) =>
+      apiError(true, recordAddErrorMessage, endpoint, error.message)
+    );
 
   even.preventDefault();
 }
