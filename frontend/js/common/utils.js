@@ -47,7 +47,7 @@ function jsonArray2htmlTable(table, arr, buttonFunc) {
   return table;
 }
 
-function jsonArray2htmlTable2(table, arr, buttonFunc) {
+function jsonArray2htmlTable2(table, arr, buttonFuncArray) {
   const columns = addAllColumnHeaders(arr, table);
 
   const idColumnIndex = columns.indexOf("ID");
@@ -70,12 +70,14 @@ function jsonArray2htmlTable2(table, arr, buttonFunc) {
       td.appendChild(document.createTextNode(celda));
 
       // creamos una nueva columna para los botones
-      if (j === columns.length && buttonFunc != null) {
-        botonEliminar = document.createElement("button");
-        botonEliminar.innerHTML = "Eliminar";
-        botonEliminar.setAttribute("id", `${table.id}Delete-${idCelda}`);
-        botonEliminar.onclick = buttonFunc;
-        td.appendChild(botonEliminar);
+      if (j === columns.length && buttonFuncArray != null) {
+        buttonFuncArray.forEach((buttonData) => {
+          const button = document.createElement("button");
+          button.innerHTML = buttonData.name;
+          button.setAttribute("id", `${table.id}${buttonData.name}-${idCelda}`);
+          button.onclick = buttonData.func;
+          td.appendChild(button);
+        });
       }
 
       tr.appendChild(td);
