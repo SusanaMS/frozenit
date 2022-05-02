@@ -28,7 +28,6 @@ recordAdd.addEventListener("click", clickRecordAdd);
 addRecordForm.addEventListener("submit", processRecordAdd);
 
 function processRecordGet(event) {
-  console.log("entroo!!");
   if (!checkJWT(jwtToken)) {
     return null;
   }
@@ -100,7 +99,7 @@ async function recordFreezerSelect(email) {
   const endpoint = `${BASE_ENDPOINT}/freezers/email/${email}`;
 
   // https://stackoverflow.com/questions/59650572/how-to-wait-for-response-of-fetch-in-async-function
-  console.log(endpoint, requestOptions);
+  console.debug(endpoint, requestOptions);
   const fecthFreezers = async (args) => {
     const res = await fetch(endpoint, requestOptions)
       .then((response) => response.text())
@@ -236,6 +235,7 @@ function processRecordAdd(even) {
         window.alert(
           `Alimento congelado correctamente! Fecha de caducidad: ${fechaExpiracion}`
         );
+        recordBoxAdd.setAttribute("style", "display: none");
       } else {
         apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
       }
