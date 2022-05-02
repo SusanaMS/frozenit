@@ -75,6 +75,17 @@ function array2option(arrayValues, selectNode) {
   return null;
 }
 
+function json2option(jsonData, selectNode) {
+  jsonData.forEach((opt) => {
+    const option = document.createElement("option");
+    option.value = opt.value;
+    option.innerHTML = opt.value;
+    option.id = opt.id;
+    selectNode.appendChild(option);
+  });
+  return null;
+}
+
 function checkJWT(jwtToken) {
   if (jwtToken == null) {
     console.error("debe estar logeado");
@@ -93,4 +104,11 @@ function getUserEmail() {
   return email;
 }
 
-export { apiError, jsonArray2htmlTable, array2option, checkJWT, getUserEmail };
+export {
+  apiError,
+  jsonArray2htmlTable,
+  array2option,
+  json2option,
+  checkJWT,
+  getUserEmail,
+};
