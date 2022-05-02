@@ -25,6 +25,7 @@ let apiHeaders;
 
 recordGet.addEventListener("click", processRecordGet);
 recordAdd.addEventListener("click", clickRecordAdd);
+addRecordForm.addEventListener("submit", processRecordAdd);
 
 function processRecordGet(event) {
   console.log("entroo!!");
@@ -82,7 +83,7 @@ function processRecordGet(event) {
   event.preventDefault();
 }
 
-function recordFreezerSelect(email) {
+async function recordFreezerSelect(email) {
   apiHeaders = new Headers();
   apiHeaders.append("Content-Type", API_CONTENT_TYPE);
   apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
@@ -98,25 +99,35 @@ function recordFreezerSelect(email) {
 
   const endpoint = `${BASE_ENDPOINT}/freezers/email/${email}`;
 
+  let userFreezers;
+
+  // https://stackoverflow.com/questions/59650572/how-to-wait-for-response-of-fetch-in-async-function
   console.log(endpoint, requestOptions);
-  fetch(endpoint, requestOptions)
-    .then((response) => response.text())
-    .then((result) => {
-      const jsonResult = JSON.parse(result);
-      if (jsonResult.error != null) {
-        apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
-      } else {
-        console.log(jsonResult);
-        const userFreezers = jsonResult.map(({ name_freezer }) => name_freezer);
-        array2option(userFreezers, recordFreezer);
-      }
-    })
-    .catch((error) => {
-      apiError(true, recordAddErrorMessage, endpoint, error.message);
-    });
+  const fecthFreezers = async (args) => {
+    const res = await fetch(endpoint, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const jsonResult = JSON.parse(result);
+        if (jsonResult.error != null) {
+          apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
+        } else {
+          console.log(jsonResult);
+          userFreezers = jsonResult.map(({ name_freezer }) => name_freezer);
+          array2option(userFreezers, recordFreezer);
+        }
+      })
+      .catch((error) => {
+        apiError(true, recordAddErrorMessage, endpoint, error.message);
+      });
+  };
+
+  const data = await fecthFreezers();
+  console.log(":::>", userFreezers);
+
+  return userFreezers;
 }
 
-function recordFoodSelect() {
+async function recordFoodSelect() {
   apiHeaders = new Headers();
   apiHeaders.append("Content-Type", API_CONTENT_TYPE);
   apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
@@ -129,21 +140,31 @@ function recordFoodSelect() {
 
   const endpoint = `${BASE_ENDPOINT}/foods/all`;
 
-  fetch(endpoint, requestOptions)
-    .then((response) => response.text())
-    .then((result) => {
-      const jsonResult = JSON.parse(result);
-      if (jsonResult.error != null) {
-        apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
-      } else {
-        console.log(jsonResult);
-        const foods = jsonResult.map(({ name_food }) => name_food);
-        array2option(foods, recordFood);
-      }
-    })
-    .catch((error) => {
-      apiError(true, recordAddErrorMessage, endpoint, error.message);
-    });
+  let foods;
+
+  const fecthFoods = async (args) => {
+    const res = await fetch(endpoint, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const jsonResult = JSON.parse(result);
+        if (jsonResult.error != null) {
+          apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
+        } else {
+          console.log(jsonResult);
+          foods = jsonResult.map(({ name_food }) => name_food);
+          array2option(foods, recordFood);
+          return foods;
+        }
+      })
+      .catch((error) => {
+        apiError(true, recordAddErrorMessage, endpoint, error.message);
+      });
+  };
+
+  const data = await fecthFoods();
+  console.log(":::>", foods);
+
+  return foods;
 }
 
 function clickRecordAdd(event) {
@@ -158,9 +179,28 @@ function clickRecordAdd(event) {
 
   recordFreezeDate.valueOf().value = new Date().toISOString().slice(0, 10);
 
-  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then(() => {
-    recordBoxAdd.setAttribute("style", "display: flex");
-  });
+  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then(
+    (selectValues) => {
+      console.log("------->", selectValues);
+      recordBoxAdd.setAttribute("style", "display: flex");
+    }
+  );
 
   event.preventDefault();
+}
+
+function processRecordAdd(even) {
+  if (!checkJWT(jwtToken)) {
+    return null;
+  }
+
+  const email = getUserEmail();
+  if (email == null) {
+    return null;
+  }
+
+  const recordFreezer = document.getElementById("recordFreezer").value;
+
+  console.log(">>>>>>>", recordFreezer);
+  even.preventDefault();
 }
