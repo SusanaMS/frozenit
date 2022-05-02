@@ -2,6 +2,10 @@ const _tr_ = document.createElement("tr"),
   _th_ = document.createElement("th"),
   _td_ = document.createElement("td");
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function apiError(isConnectError, errorDOM, endpoint, errorMessage) {
   const errorMessageAPI = `error API: ${endpoint} => ${errorMessage}`;
   console.error(errorMessageAPI);
@@ -56,7 +60,7 @@ function addAllColumnHeaders(arr, table) {
       if (arr[i].hasOwnProperty(key) && columnSet.indexOf(key) === -1) {
         columnSet.push(key);
         const th = _th_.cloneNode(false);
-        th.appendChild(document.createTextNode(key));
+        th.appendChild(document.createTextNode(capitalizeFirstLetter(key)));
         tr.appendChild(th);
       }
     }
