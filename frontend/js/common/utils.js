@@ -20,8 +20,23 @@ function apiError(isConnectError, errorDOM, endpoint, errorMessage) {
 }
 
 // https://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
-function jsonArray2htmlTable(table, arr, buttonFuncArray) {
-  const columns = addAllColumnHeaders(arr, table);
+function jsonArray2htmlTable(
+  table,
+  jsonArray,
+  buttonFuncArray = null,
+  skipCols = []
+) {
+  const jsonTable = [];
+
+  jsonArray.forEach((json) => {
+    console.log(json);
+    skipCols.forEach((col) => delete json[col]);
+    jsonTable.push(json);
+  });
+
+  console.debug(jsonTable);
+
+  const columns = addAllColumnHeaders(jsonTable, table);
 
   let idColumnIndex = -1,
     numberOfButtons = 0;
@@ -34,7 +49,7 @@ function jsonArray2htmlTable(table, arr, buttonFuncArray) {
   console.debug(columns, idColumnIndex);
 
   let i = 0;
-  for (; i < arr.length; ++i) {
+  for (; i < jsonTable.length; ++i) {
     const tr = _tr_.cloneNode(false);
     let j = 0;
     let idCelda = null;
@@ -43,7 +58,7 @@ function jsonArray2htmlTable(table, arr, buttonFuncArray) {
     for (; j < columns.length + numberOfButtons; ++j) {
       const td = _td_.cloneNode(false);
       if (j < columns.length) {
-        const celda = arr[i][columns[j]] || "-";
+        const celda = jsonTable[i][columns[j]] || "-";
         // si la columan tratada corresponde a donde está posicionada la ID
         // guardamos la id para setearla al boton/es
         idCelda = idCelda == null && j === idColumnIndex ? celda : idCelda;
