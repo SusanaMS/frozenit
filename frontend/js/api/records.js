@@ -1,7 +1,7 @@
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
 import {
   apiError,
-  jsonArray2htmlTable2,
+  jsonArray2htmlTable,
   json2option,
   checkJWT,
   getUserEmail,
@@ -64,7 +64,7 @@ function processRecordGet(event) {
           );
         } else {
           recordTable.innerHTML = "";
-          jsonArray2htmlTable2(recordTable, jsonResult, [
+          jsonArray2htmlTable(recordTable, jsonResult, [
             { func: unfreeze, name: "Descongelar" },
           ]);
         }
@@ -114,8 +114,9 @@ async function recordFreezerSelect(email) {
         } else {
           let jsonObject = [];
           jsonResult.forEach((optSel) =>
-            jsonObject.push({ id: optSel.id, value: optSel.name_freezer })
+            jsonObject.push({ id: optSel.id, value: optSel.freezer })
           );
+          console.debug(jsonObject);
           json2option(jsonObject, recordFreezer);
         }
       })
