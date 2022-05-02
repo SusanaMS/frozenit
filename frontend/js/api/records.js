@@ -73,7 +73,9 @@ function processRecordGet(event) {
           false,
           recordBoxMessage,
           endpoint,
-          jsonResult.error || "no se ha obtenido respuesta"
+          jsonResult != null
+            ? jsonResult.error || "sin error definido"
+            : "no se ha obtenido respuesta"
         );
       }
     })
@@ -102,8 +104,8 @@ async function recordFreezerSelect(email) {
 
   // https://stackoverflow.com/questions/59650572/how-to-wait-for-response-of-fetch-in-async-function
   console.debug(endpoint, requestOptions);
-  const fecthFreezers = async (args) => {
-    const res = await fetch(endpoint, requestOptions)
+  const fecthFreezers = async () => {
+    await fetch(endpoint, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         const jsonResult = JSON.parse(result);
@@ -111,8 +113,8 @@ async function recordFreezerSelect(email) {
           apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
         } else {
           let jsonObject = [];
-          jsonResult.forEach((opt) =>
-            jsonObject.push({ id: opt.id, value: opt.name_freezer })
+          jsonResult.forEach((optSel) =>
+            jsonObject.push({ id: optSel.id, value: optSel.name_freezer })
           );
           json2option(jsonObject, recordFreezer);
         }
@@ -138,8 +140,8 @@ async function recordFoodSelect() {
 
   const endpoint = `${BASE_ENDPOINT}/foods/all`;
 
-  const fecthFoods = async (args) => {
-    const res = await fetch(endpoint, requestOptions)
+  const fecthFoods = async () => {
+    await fetch(endpoint, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         const jsonResult = JSON.parse(result);
@@ -238,6 +240,10 @@ function processRecordAdd(event) {
           `Alimento congelado correctamente! Fecha de caducidad: ${fechaExpiracion}`
         );
         recordBoxAdd.setAttribute("style", "display: none");
+        // inicializamos las options de las select
+        recordFreezer.options.length = 0;
+        recordFood.options.length = 0;
+        processRecordGet(event);
       } else {
         apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
       }
@@ -298,7 +304,9 @@ function unfreeze(event) {
           false,
           recordBoxMessage,
           endpoint,
-          jsonResult.error || "no se ha obtenido respuesta"
+          jsonResult != null
+            ? jsonResult.error || "sin error definido"
+            : "no se ha obtenido respuesta"
         );
       }
     })
