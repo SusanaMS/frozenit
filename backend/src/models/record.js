@@ -10,6 +10,7 @@ class RecordModel {
          id_record as ID,
          (SELECT name_freezer FROM freezer WHERE id=records.freezer_id) as freezer,
          (SELECT name_food FROM foods WHERE id =records.foods_id) as food,
+         IFNULL(slot, 1) as slot,
          DATE_FORMAT(add_date, '%Y-%m-%d') AS congelado,
          DATE_FORMAT(expiration_date, '%Y-%m-%d') AS caduca
        FROM records WHERE is_deleted = 0`;
