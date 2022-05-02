@@ -17,6 +17,7 @@ const MODEL_ENPOINT = "records",
   recordBoxAdd = document.getElementById("recordBoxAdd"),
   recordFreezer = document.getElementById("recordFreezer"),
   recordFood = document.getElementById("recordFood"),
+  recordSlot = document.getElementById("recordSlot"),
   recordFreezeDate = document.getElementById("recordFreezeDate"),
   recordAddErrorMessage = document.getElementById("recordAddErrorMessage"),
   addRecordForm = document.getElementById("addRecordForm");
@@ -26,6 +27,7 @@ let apiHeaders;
 recordGet.addEventListener("click", processRecordGet);
 recordAdd.addEventListener("click", clickRecordAdd);
 addRecordForm.addEventListener("submit", processRecordAdd);
+recordFreezer.addEventListener("change", onSelectMax);
 
 function processRecordGet(event) {
   if (!checkJWT(jwtToken)) {
@@ -104,13 +106,15 @@ async function recordFreezerSelect(email) {
 
   const endpoint = `${BASE_ENDPOINT}/freezers/email/${email}`;
 
+  let jsonResult;
+
   // https://stackoverflow.com/questions/59650572/how-to-wait-for-response-of-fetch-in-async-function
   console.debug(endpoint, requestOptions);
   const fecthFreezers = async () => {
     await fetch(endpoint, requestOptions)
       .then((response) => response.text())
       .then((result) => {
-        const jsonResult = JSON.parse(result);
+        jsonResult = JSON.parse(result);
         if (jsonResult.error != null) {
           apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
         } else {
@@ -128,6 +132,8 @@ async function recordFreezerSelect(email) {
   };
 
   await fecthFreezers();
+
+  return jsonResult;
 }
 
 async function recordFoodSelect() {
@@ -182,11 +188,28 @@ function clickRecordAdd(event) {
   // con la combianción async / await / Promise.all podemos lanzar las fecth
   // de forma simultanea pero esperamos a que todas se completen para mostrar
   // el formulario con las option ya metidas en las select
-  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then(() => {
+  Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then((res) => {
+    localStorage.setItem("freezers", JSON.stringify(res[0]));
+    onSelectMax();
     recordBoxAdd.setAttribute("style", "display: flex");
   });
 
   event.preventDefault();
+}
+
+function onSelectMax() {
+  console.debug("onSelectMax");
+  const freezers = JSON.parse(localStorage.getItem("freezers"));
+  console.debug(freezers);
+
+  // https://stackoverflow.com/questions/13964155/get-javascript-object-from-array-of-objects-by-value-of-property
+  // necesitamos que el max num de slots cuadre con lo seleccionado
+  const sel = freezers.find((obj) => {
+    return obj.freezer === recordFreezer[recordFreezer.selectedIndex].value;
+  });
+  const maxSlots = sel.slots != null ? sel.slots : 5;
+  recordSlot.setAttribute("max", maxSlots);
+  return null;
 }
 
 function processRecordAdd(event) {
