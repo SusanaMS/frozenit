@@ -230,9 +230,12 @@ function processRecordAdd(even) {
     .then((response) => response.text())
     .then((result) => {
       const jsonResult = JSON.parse(result);
-      console.log(jsonResult);
+      console.debug(jsonResult);
       if (jsonResult.error == null) {
-        window.alert("alimento congelado correctamente!");
+        const { fechaExpiracion } = jsonResult;
+        window.alert(
+          `Alimento congelado correctamente! Fecha de caducidad: ${fechaExpiracion}`
+        );
       } else {
         apiError(false, recordAddErrorMessage, endpoint, jsonResult.error);
       }
