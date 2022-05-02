@@ -87,6 +87,8 @@ function processRecordGet(event) {
 }
 
 async function recordFreezerSelect(email) {
+  recordFreezer.options.length = 0;
+
   apiHeaders = new Headers();
   apiHeaders.append("Content-Type", API_CONTENT_TYPE);
   apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
@@ -129,6 +131,8 @@ async function recordFreezerSelect(email) {
 }
 
 async function recordFoodSelect() {
+  recordFood.options.length = 0;
+
   apiHeaders = new Headers();
   apiHeaders.append("Content-Type", API_CONTENT_TYPE);
   apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
