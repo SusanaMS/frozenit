@@ -23,48 +23,46 @@ function apiError(isConnectError, errorDOM, endpoint, errorMessage) {
 function jsonArray2htmlTable(table, arr, buttonFuncArray) {
   const columns = addAllColumnHeaders(arr, table);
 
-  let idColumnIndex = -1;
+  let idColumnIndex = -1,
+    numberOfButtons = 0;
   if (buttonFuncArray != null) {
+    // determinamos la posicion del campo id en las columnas si existiera
     idColumnIndex = columns.map((col) => col.toLowerCase()).indexOf("id");
+    numberOfButtons = buttonFuncArray.length;
   }
 
   console.debug(columns, idColumnIndex);
+
   let i = 0;
   for (; i < arr.length; ++i) {
     const tr = _tr_.cloneNode(false);
     let j = 0;
     let idCelda = null;
-    for (; j <= columns.length; ++j) {
+    // con esta variable extraemos el boton correspondiente del array
+    let buttonCont = 0;
+    for (; j < columns.length + numberOfButtons; ++j) {
       const td = _td_.cloneNode(false);
-      const celda = arr[i][columns[j]] || "-";
-
-      // si la columan tratada corresponde a donde está posicionada la ID
-      // guardamos la id para setearla al boton/es
-
-      idCelda = idCelda == null && j === idColumnIndex ? celda : idCelda;
-
-      td.appendChild(document.createTextNode(celda));
-
-      // creamos una nueva columna para los botones
-      if (
-        j === columns.length &&
-        buttonFuncArray != null &&
-        idColumnIndex >= 0
-      ) {
-        buttonFuncArray.forEach((buttonData) => {
-          const button = document.createElement("button");
-          button.innerHTML = buttonData.name;
-          button.setAttribute("id", `${table.id}${buttonData.name}-${idCelda}`);
-          button.onclick = buttonData.func;
-          td.appendChild(button);
-        });
+      if (j < columns.length) {
+        const celda = arr[i][columns[j]] || "-";
+        // si la columan tratada corresponde a donde está posicionada la ID
+        // guardamos la id para setearla al boton/es
+        idCelda = idCelda == null && j === idColumnIndex ? celda : idCelda;
+        td.appendChild(document.createTextNode(celda));
+      } else if (buttonFuncArray != null && idColumnIndex >= 0) {
+        // en caso de sobrepasemos la longitud de columnas tendremos que añadir los
+        // buttons como celdas adicionales
+        const buttonData = buttonFuncArray[buttonCont];
+        const button = document.createElement("button");
+        button.innerHTML = buttonData.name;
+        button.setAttribute("id", `${table.id}${buttonData.name}-${idCelda}`);
+        button.onclick = buttonData.func;
+        td.appendChild(button);
+        buttonCont++;
       }
-
       tr.appendChild(td);
     }
     table.appendChild(tr);
   }
-
   return table;
 }
 
