@@ -2,7 +2,7 @@ import * as queryHandler from "../db/connection.js";
 import { colValueBinder } from "../db/utils.js";
 
 class RecordModel {
-  static tableName = "records";
+  static tableName = "frozenit.records";
 
   static find = async (email) => {
     let sql = `

@@ -2,7 +2,7 @@ import * as queryHandler from "../db/connection.js";
 import { colValueBinder } from "../db/utils.js";
 
 class FoodModel {
-  static tableName = "foods";
+  static tableName = "frozenit.foods";
 
   static find = async (params = {}) => {
     let sql = `SELECT * FROM ${this.tableName}`;
