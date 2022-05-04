@@ -1,6 +1,6 @@
 // doc
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
-import { apiError, jsonArray2htmlTable } from "../common/utils.js";
+import { apiError, clearBoxes, jsonArray2htmlTable } from "../common/utils.js";
 
 const MODEL_ENPOINT = "freezers",
   jwtToken = localStorage.getItem("jwtToken"),
@@ -17,6 +17,7 @@ let apiHeaders;
 
 freezerGet.addEventListener("click", processFreezerGet);
 freezerAdd.addEventListener("click", () => {
+  clearBoxes();
   if (jwtToken == null) {
     console.error("debe estar logeado");
     window.alert("Debe estar logeado");
@@ -27,6 +28,8 @@ freezerAdd.addEventListener("click", () => {
 addFreezerForm.addEventListener("submit", processFreezerAdd);
 
 function processFreezerGet() {
+  clearBoxes();
+
   if (jwtToken == null) {
     console.error("debe estar logeado");
     window.alert("Debe estar logeado");
@@ -182,6 +185,8 @@ function deleteFreezer(elem) {
 }
 
 function processFreezerAdd(event) {
+  clearBoxes();
+
   if (jwtToken == null) {
     console.error("debe estar logeado");
     window.alert("Debe estar logeado");

@@ -1,3 +1,5 @@
+import { BOX_CLASSES } from "../common/constants.js";
+
 const _tr_ = document.createElement("tr"),
   _th_ = document.createElement("th"),
   _td_ = document.createElement("td");
@@ -142,6 +144,15 @@ function getUserEmail() {
   return email;
 }
 
+// recorremos todos los elemento BOX para limpiarlos de la pantalla
+// cuando se pulse una nueva acción
+function clearBoxes() {
+  Array.from(document.getElementsByClassName(BOX_CLASSES)).forEach(
+    (ele) => (ele.style = "display: none")
+  );
+  return null;
+}
+
 export {
   apiError,
   jsonArray2htmlTable,
@@ -149,4 +160,5 @@ export {
   json2option,
   checkJWT,
   getUserEmail,
+  clearBoxes,
 };

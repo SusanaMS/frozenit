@@ -5,6 +5,7 @@ import {
   json2option,
   checkJWT,
   getUserEmail,
+  clearBoxes,
 } from "../common/utils.js";
 
 const MODEL_ENPOINT = "records",
@@ -30,6 +31,7 @@ addRecordForm.addEventListener("submit", processRecordAdd);
 recordFreezer.addEventListener("change", onSelectMax);
 
 function processRecordGet(event) {
+  clearBoxes();
   if (!checkJWT(jwtToken)) {
     return null;
   }
@@ -174,6 +176,8 @@ async function recordFoodSelect() {
 }
 
 function clickRecordAdd(event) {
+  clearBoxes();
+
   if (!checkJWT(jwtToken)) {
     return null;
   }
@@ -267,7 +271,7 @@ function processRecordAdd(event) {
         window.alert(
           `Alimento congelado correctamente! Fecha de caducidad: ${fechaExpiracion}`
         );
-        recordBoxAdd.setAttribute("style", "display: none");
+
         // inicializamos las options de las select
         recordFreezer.options.length = 0;
         recordFood.options.length = 0;
