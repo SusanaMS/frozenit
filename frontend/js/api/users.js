@@ -1,6 +1,6 @@
 // doc
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
-import { apiError, clearBoxes } from "../common/utils.js";
+import { apiError, clearActions } from "../common/utils.js";
 
 const MODEL_ENPOINT = "users";
 
@@ -29,7 +29,7 @@ signupButton.addEventListener("click", () => {
 
 if (jwtToken != null) {
   // cuando tenemos almacenad el jwt existía un login previo
-  clearBoxes();
+  clearActions();
   signupButton.classList.add("hidden");
   userInfo.innerText = JSON.parse(sessionUserInfo).username;
 } else {

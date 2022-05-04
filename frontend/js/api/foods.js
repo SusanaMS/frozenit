@@ -3,7 +3,7 @@ import {
   apiError,
   jsonArray2htmlTable,
   array2option,
-  clearBoxes,
+  clearActions,
 } from "../common/utils.js";
 
 const MODEL_ENPOINT = "foods",
@@ -25,7 +25,9 @@ foodAdd.addEventListener("click", clickFoodAdd);
 addFoodForm.addEventListener("submit", processFoodAdd);
 
 function processFoodGet(event) {
-  clearBoxes();
+  clearActions();
+  event.path[0].style.color = "#1b253d";
+
   if (jwtToken == null) {
     console.error("debe estar logeado");
     window.alert("Debe estar logeado");
@@ -75,7 +77,8 @@ function processFoodGet(event) {
 }
 
 function clickFoodAdd(event) {
-  clearBoxes();
+  clearActions();
+  event.path[0].style.color = "#1b253d";
 
   foodCategories.options.length = 0;
 

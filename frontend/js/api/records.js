@@ -5,7 +5,7 @@ import {
   json2option,
   checkJWT,
   getUserEmail,
-  clearBoxes,
+  clearActions,
 } from "../common/utils.js";
 
 const MODEL_ENPOINT = "records",
@@ -31,7 +31,8 @@ addRecordForm.addEventListener("submit", processRecordAdd);
 recordFreezer.addEventListener("change", onSelectMax);
 
 function processRecordGet(event) {
-  clearBoxes();
+  clearActions();
+  event.path[0].style.color = "#1b253d";
   if (!checkJWT(jwtToken)) {
     return null;
   }
@@ -176,7 +177,8 @@ async function recordFoodSelect() {
 }
 
 function clickRecordAdd(event) {
-  clearBoxes();
+  clearActions();
+  event.path[0].style.color = "#1b253d";
 
   if (!checkJWT(jwtToken)) {
     return null;
@@ -327,7 +329,6 @@ function unfreeze(event) {
     .then((response) => response.text())
     .then((result) => {
       const jsonResult = JSON.parse(result);
-      console.log(jsonResult);
       if (jsonResult != null && !jsonResult.error) {
         window.alert("Descongelado de alimento correcto");
         processRecordGet(event);

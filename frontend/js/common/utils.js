@@ -1,4 +1,4 @@
-import { BOX_CLASSES } from "../common/constants.js";
+import { BOX_CLASSES, REF_CLASSES } from "../common/constants.js";
 
 const _tr_ = document.createElement("tr"),
   _th_ = document.createElement("th"),
@@ -144,9 +144,12 @@ function getUserEmail() {
   return email;
 }
 
-// recorremos todos los elemento BOX para limpiarlos de la pantalla
-// cuando se pulse una nueva acción
-function clearBoxes() {
+// recorremos todos los elemento de acciones para limpiarlos de la pantalla
+// cuando se pulse una nueva opción
+function clearActions() {
+  Array.from(document.getElementsByClassName(REF_CLASSES)).forEach(
+    (ele) => (ele.style.color = "#99a0b0")
+  );
   Array.from(document.getElementsByClassName(BOX_CLASSES)).forEach(
     (ele) => (ele.style = "display: none")
   );
@@ -160,5 +163,5 @@ export {
   json2option,
   checkJWT,
   getUserEmail,
-  clearBoxes,
+  clearActions,
 };
