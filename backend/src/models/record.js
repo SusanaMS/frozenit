@@ -12,7 +12,8 @@ class RecordModel {
          (SELECT name_food FROM foods WHERE id =records.foods_id) as food,
          IFNULL(slot, 1) as slot,
          DATE_FORMAT(add_date, '%Y-%m-%d') AS congelado,
-         DATE_FORMAT(expiration_date, '%Y-%m-%d') AS caduca
+         DATE_FORMAT(expiration_date, '%Y-%m-%d') AS caduca,
+         DATEDIFF(expiration_date, CURDATE()) as dias
        FROM records WHERE is_deleted = 0`;
 
     if (email == null) {
