@@ -34,6 +34,10 @@ body {
   display: block;
 }
 
+.accionRef {
+  cursor: pointer;
+}
+
 .menu-wrap {
   grid-area: menu;
   padding-bottom: 3em;
