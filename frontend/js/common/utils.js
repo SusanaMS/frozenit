@@ -31,7 +31,7 @@ function jsonArray2htmlTable(
   const jsonTable = [];
 
   jsonArray.forEach((json) => {
-    console.log(json);
+    console.debug(json);
     skipCols.forEach((col) => delete json[col]);
     jsonTable.push(json);
   });

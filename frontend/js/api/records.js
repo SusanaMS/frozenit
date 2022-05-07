@@ -21,7 +21,9 @@ const MODEL_ENPOINT = "records",
   recordSlot = document.getElementById("recordSlot"),
   recordFreezeDate = document.getElementById("recordFreezeDate"),
   recordAddErrorMessage = document.getElementById("recordAddErrorMessage"),
-  addRecordForm = document.getElementById("addRecordForm");
+  addRecordForm = document.getElementById("addRecordForm"),
+  alertGet = document.getElementById("alertGet"),
+  alertTable = document.getElementById("alertTable");
 
 let apiHeaders;
 
@@ -29,6 +31,7 @@ recordGet.addEventListener("click", processRecordGet);
 recordAdd.addEventListener("click", clickRecordAdd);
 addRecordForm.addEventListener("submit", processRecordAdd);
 recordFreezer.addEventListener("change", onSelectMax);
+alertGet.addEventListener("click", processAlertGet);
 
 function processRecordGet(event) {
   clearActions();
@@ -350,4 +353,80 @@ function unfreeze(event) {
       apiError(true, recordBoxMessage, endpoint, "kkkkk" + error.message)
     );
   return null;
+}
+
+function processAlertGet(event) {
+  clearActions();
+  event.path[0].style.color = "#1b253d";
+  if (!checkJWT(jwtToken)) {
+    return null;
+  }
+
+  const email = getUserEmail();
+  if (email == null) {
+    return null;
+  }
+
+  apiHeaders = new Headers();
+  apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: apiHeaders,
+    redirect: "follow",
+  };
+
+  const endpoint = `${BASE_ENDPOINT}/${MODEL_ENPOINT}/email/${email}`;
+
+  fetch(endpoint, requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      recordBox.setAttribute("style", "display: flex");
+      const jsonResult = JSON.parse(result);
+      console.debug(jsonResult);
+      if (jsonResult != null && !jsonResult.error) {
+        if (!jsonResult.length) {
+          apiError(
+            false,
+            recordBoxMessage,
+            endpoint,
+            "no existen alertas asociadas a su cuenta"
+          );
+        } else {
+          recordTable.innerHTML = "";
+
+          const alerts = jsonResult.filter((rec) => rec.alerta != "NORMAL");
+
+          if (alerts.length) {
+            jsonArray2htmlTable(recordTable, alerts, null, [
+              "slot",
+              "caduca",
+              "congelado",
+            ]);
+          } else {
+            // TODO: Cambiar el tipo de mensaje ?
+            apiError(
+              false,
+              recordBoxMessage,
+              endpoint,
+              "No hay alimentos próximos a su fecha de caducidad"
+            );
+          }
+        }
+      } else {
+        apiError(
+          false,
+          recordBoxMessage,
+          endpoint,
+          jsonResult != null
+            ? jsonResult.error || "sin error definido"
+            : "no se ha obtenido respuesta"
+        );
+      }
+    })
+    .catch((error) =>
+      apiError(true, recordBoxMessage, endpoint, error.message)
+    );
+
+  event.preventDefault();
 }
