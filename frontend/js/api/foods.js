@@ -8,7 +8,7 @@ import {
 
 const MODEL_ENPOINT = "foods",
   jwtToken = localStorage.getItem("jwtToken"),
-  foodGet = document.getElementById("foodGet"),
+  //foodGet = document.getElementById("foodGet"),
   foodCategories = document.getElementById("foodCategories"),
   foodAdd = document.getElementById("foodAdd"),
   foodBoxAdd = document.getElementById("foodBoxAdd"),
@@ -20,7 +20,7 @@ const MODEL_ENPOINT = "foods",
 
 let apiHeaders;
 
-foodGet.addEventListener("click", processFoodGet);
+//foodGet.addEventListener("click", processFoodGet);
 foodAdd.addEventListener("click", clickFoodAdd);
 addFoodForm.addEventListener("submit", processFoodAdd);
 
@@ -160,7 +160,7 @@ function processFoodAdd(event) {
       console.log(jsonResult);
       if (jsonResult.error == null) {
         window.alert("alta de alimento correcta!");
-        processFoodGet(event);
+        //processFoodGet(event);
       } else {
         apiError(false, foodAddErrorMessage, endpoint, jsonResult.error);
       }
