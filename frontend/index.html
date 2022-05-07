@@ -6,67 +6,121 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>FrozenIt</title>
     <link href="css/app.css" rel="stylesheet" type="text/css" />
-    <script type="module" src="js/api/users.js" defer></script>
-    <script type="module" src="js/api/foods.js" defer></script>
-    <script type="module" src="js/api/freezers.js" defer></script>
-    <script type="module" src="js/api/records.js" defer></script>
+
+    <script defer src="js/api/users.js" type="module"></script>
+    <script defer src="js/api/foods.js" type="module"></script>
+    <script defer src="js/api/freezers.js" type="module"></script>
+    <script defer src="js/api/records.js" type="module"></script>
   </head>
   <body>
     <div class="dashboard">
+      <img alt="" id="defrost" src="img/vector.svg" /><!---aqui???-->
+      <header class="content-head">
+        <h1>FrozenIt</h1>
+      </header>
       <header class="menu-wrap">
         <figure class="user">
-          <div class="user-avatar">
-            <img alt="Avatar" src="" />
+          <div class="show-user">
+            <div class="user-avatar" id="userAvatar" hidden>
+              <img alt="Avatar" src="img/avatar-pingu.png" />
+              <figcaption id="userInfo">Nombre de usuario</figcaption>
+            </div>
           </div>
-          <figcaption id="userInfo">Usuario no autenticado</figcaption>
-          &nbsp;
-          <button class="btn" id="logoutButton" type="submit">Logout</button>
-          <button class="btn" id="signupButton">Signup</button>
+          <button
+            class="btn"
+            id="logoutButton"
+            type="submit"
+            style="margin-left: 20px; top: 70px"
+          >
+            Logout
+          </button>
+          <div class="login-register">
+            <button class="btn" id="signupButton">Registrar</button>
+            <button class="btn" id="signinButton" hidden>Acceder</button>
+          </div>
         </figure>
-
         <nav>
           <section class="dicover">
-            <h3>Acciones</h3>
-            <ul>
-              <li>
-                <a class="accion-ref" id="recordAdd">Congelar</a>
-              </li>
-              <li>
-                <a class="accion-ref" id="recordGet">Congelados</a>
-              </li>
-              <li>
-                <a class="accion-ref" id="foodAdd">Crear alimento</a>
-              </li>
-              <li>
-                <a class="accion-ref" id="foodGet">Alimentos</a>
-              </li>
-              <li>
-                <a class="accion-ref" id="freezerAdd">Crear congelador</a>
-              </li>
-              <li>
-                <a class="accion-ref" id="freezerGet">Congeladores</a>
-              </li>
-              <li>
-                <a class="accion-ref" id="alertGet">Alertas</a>
-              </li>
-            </ul>
+            <h3>¿Qué quieres hacer?</h3>
+            <!--cambio lista por iconos en dif. contenedores-->
+            <div class="food">
+              <span>Alimentos</span> <br /><br />
+              <button class="accion-ref" id="recordAdd" type="submit">
+                <img
+                  alt="Congelar"
+                  src="img/congelar.png"
+                  title="Congelar alimento"
+                />
+              </button>
+              <button class="accion-ref" id="recordGet" type="submit">
+                <img
+                  alt="Descongelar"
+                  src="img/descongelar.png"
+                  title="Descongelar alimento"
+                />
+              </button>
+              <button class="accion-ref" id="foodAdd" type="submit">
+                <img
+                  alt="Nuevo"
+                  src="img/modificarcongelador.png"
+                  title="Crear alimento"
+                />
+              </button>
+            </div>
+            <br />
+            <div class="freezer">
+              <span>Congelador</span> <br />
+              <br />
+              <button class="accion-ref" id="freezerAdd" type="submit">
+                <img
+                  alt="Nuevo"
+                  src="img/nuevocongelador.png"
+                  title="Crear congelador"
+                />
+              </button>
+              <button class="accion-ref" id="freezerGet" type="submit">
+                <img alt="Mostrar" src="img/ojo.png" title="Ver congeladores" />
+              </button>
+            </div>
+            <br />
+            <div class="alert">
+              <span>Alertas</span> <br />
+              <br />
+              <button class="accion-ref" id="alertGet" type="submit">
+                <img
+                  alt="Alertas"
+                  src="img/consuscripcion.png"
+                  title="Ver alertas"
+                />
+              </button>
+            </div>
           </section>
         </nav>
       </header>
 
       <main class="content-wrap">
-        <header class="content-head">
-          <h1>FrozenIt</h1>
-        </header>
-
         <div class="content">
           <section class="info-boxes">
-            <div id="logBox" class="info-box">
+            <div class="info-box" id="startBox" hidden>
+              <h1>Bienvenido/a !!!</h1>
+              <br />
+              <br />
+              <img src="img/pingu-color.png" />
+              <img src="img/pingu-color.png" />
+              <img src="img/pingu-color.png" />
+              <img src="img/pingu-color.png" />
+            </div>
+            <div id="profile"></div>
+
+            <div class="info-box" id="logBox">
               <div class="box-content">
                 <div id="userLogStatus">
                   <div class="log-form" id="loginGroup">
                     <form id="loginForm">
                       <div class="group">
+                        <span>LOGIN</span>
+                        <br />
+                        <br />
                         <input
                           id="emailLogin"
                           placeholder="email"
@@ -79,22 +133,27 @@
                         <input
                           id="passwordLogin"
                           minlength="4"
-                          placeholder="password"
+                          placeholder="contraseña"
                           required="required"
-                          title="pasword"
+                          title="contraseña"
                           type="password"
                         />
                       </div>
+                      <br />
                       <button class="btn" id="loginButton" type="submit">
-                        Login
+                        Acceder
                       </button>
                       <div class="err" hidden id="loginErrorMessage">
+                        <!--espacio errores??-->
                         <br />
                       </div>
                     </form>
                     <div id="signup">
-                      <form hidden id="signupForm">
+                      <form id="signupForm" hidden>
+                        <!--hidden-->
                         <div class="group">
+                          <span>REGISTRO</span> <br />
+                          <br />
                           <input
                             id="usernameSignup"
                             minlength="4"
@@ -117,9 +176,9 @@
                           <input
                             id="passwordSignup"
                             minlength="4"
-                            placeholder="password"
+                            placeholder="contraseña"
                             required="required"
-                            title="pasword"
+                            title="constraseña"
                             type="password"
                           />
                         </div>
@@ -127,20 +186,40 @@
                           <input
                             id="passwordSignupConfirmation"
                             minlength="4"
-                            placeholder="repeat password"
+                            placeholder="confirmar contraseña"
                             required="required"
-                            title="pasword"
+                            title="confirmar contraseña"
                             type="password"
                           />
+                        </div>
+                        <br />
+                        <div class="group">
+                          <label for="avatarSignup">Avatar:</label>
+                          <input
+                            accept="image/jpeg, image/png"
+                            id="avatarSignup"
+                            name="avatar"
+                            title="avatar"
+                            type="file"
+                          />
+                          <br />
+                          <img
+                            alt="Image preview..."
+                            height="200"
+                            id="avatarSignupPreview"
+                            src=""
+                          />
+                          <br />
                         </div>
                         <button
                           class="btn"
                           id="submitSignupButton"
                           type="submit"
                         >
-                          Signup
+                          Registrar
                         </button>
                         <div class="err" hidden id="signupErrorMessage">
+                          <!--espacio errores??-->
                           <br />
                         </div>
                       </form>
@@ -150,14 +229,20 @@
               </div>
             </div>
 
-            <div id="freezerBox" class="info-box" style="display: none">
+            <div class="info-box" id="freezerBox" style="display: none">
               <table id="freezerTable"></table>
+              <!--es necesario encabezado para la tabla-->
               <div class="err" hidden id="freezerBoxMessage"></div>
+              <!--HIDDEN-->
             </div>
-            <div id="freezerBoxAdd" class="info-box" style="display: none">
+            <div class="info-box" id="freezerBoxAdd" style="display: none">
+              <!--display none???-->
               <form id="addFreezerForm">
                 <div class="group">
-                  <label for="freezerName">Nombre: </label>
+                  <span>AÑADIR NUEVO CONGELADOR</span><br />
+                  <br />
+                  <label for="freezerName">Nombre: </label
+                  ><!--label? no suficiente placeholder??-->
                   <input
                     id="freezerName"
                     minlength="4"
@@ -173,9 +258,9 @@
                     id="freezerBrand"
                     minlength="2"
                     placeholder="Marca"
-                    title="Marca"
+                    title="Opcional"
                     type="text"
-                  />
+                  /><!--opcional en placeholder o en tittle???-->
                 </div>
                 <div class="group">
                   <label for="freezerModel">Modelo: </label>
@@ -183,7 +268,7 @@
                     id="freezerModel"
                     minlength="2"
                     placeholder="Modelo"
-                    title="Modelo"
+                    title="Opcional"
                     type="text"
                   />
                 </div>
@@ -191,10 +276,10 @@
                   <label for="freezerStars">Estrellas: </label>
                   <input
                     id="freezerStars"
-                    type="number"
-                    title="Estrellas"
-                    min="1"
                     max="5"
+                    min="1"
+                    title="Opcional"
+                    type="number"
                     value="5"
                   />
                 </div>
@@ -202,79 +287,94 @@
                   <label for="freezerSlots">Cajones: </label>
                   <input
                     id="freezerSlots"
-                    type="number"
-                    title="Cajones"
-                    min="1"
                     max="10"
+                    min="1"
+                    title="Opcional"
+                    type="number"
                     value="3"
                   />
                 </div>
                 <div class="group">
                   <textarea
-                    id="freezerNotes"
-                    rows="4"
-                    minlength="10"
                     cols="30"
-                    name="comment"
                     form="addFreezerForm"
-                    placeholder="Notas"
+                    id="freezerNotes"
+                    minlength="10"
+                    name="comment"
+                    placeholder="Notas (Opcional)"
+                    rows="4"
                   ></textarea>
                 </div>
+                <br />
                 <button class="btn" id="submitAddFreezerButton" type="submit">
                   Resgistrar
                 </button>
                 <div class="err" hidden id="freezerAddErrorMessage">
+                  <!--espacio errores??-->
                   <br />
                 </div>
               </form>
 
               <div class="err" hidden id="freezerBoxAddMessage"></div>
+              <!--espacio errores??-->
             </div>
-            <div id="foodBox" class="info-box" style="display: none">
+            <div class="info-box" id="foodBox" style="display: none">
+              <!--display none para que es??-->
               <table id="foodTable"></table>
+              <!--es necesario encabezado para la tabla-->
               <div class="err" hidden id="foodBoxMessage"></div>
+              <!--espacio errores??-->
             </div>
-            <div id="foodBoxAdd" class="info-box" style="display: none">
+            <div class="info-box" id="foodBoxAdd" style="display: none">
+              <!--display none??hidde??-->
               <form id="addFoodForm">
                 <div class="group">
+                  <span>ALTA NUEVO ALIMENTO</span><br /><br />
                   <input
                     id="foodName"
-                    minlength="4"
-                    placeholder="name"
+                    minlength="3"
+                    placeholder="nombre"
                     required="required"
-                    title="name"
+                    title="nombre del alimento"
                     type="text"
                   />
                 </div>
-                <label for="foodCategories">Categoría</label>
+                <label for="foodCategories">Categoría</label
+                ><!--label?? y en nombre??-->
                 <select id="foodCategories" name="category"></select>
                 <div class="group">
                   <textarea
-                    id="foodNotes"
-                    rows="4"
-                    minlength="10"
                     cols="20"
-                    name="comment"
                     form="addFoodForm"
-                    placeholder="Notas"
+                    id="foodNotes"
+                    minlength="10"
+                    name="comment"
+                    placeholder="Notas (Opcional)"
+                    rows="4"
                   ></textarea>
                 </div>
+                <br />
                 <button class="btn" id="submitAddFoodButton" type="submit">
-                  Resgistrar
+                  Registrar alimento
                 </button>
                 <div class="err" hidden id="foodAddErrorMessage">
+                  <!--error??-->
                   <br />
                 </div>
               </form>
               <div class="err" hidden id="foodBoxAddMessage"></div>
+              <!--error-->
             </div>
-            <div id="recordBox" class="info-box" style="display: none">
+            <div class="info-box" id="recordBox" style="display: none">
               <table id="recordTable"></table>
+              <!--es necesario encabezado para la tabla-->
               <div class="err" hidden id="recordBoxMessage"></div>
+              <!--error??-->
             </div>
-            <div id="recordBoxAdd" class="info-box" style="display: none">
+            <div class="info-box" id="recordBoxAdd" style="display: none">
               <form id="addRecordForm">
                 <div class="group">
+                  <span>CONGELAR ALIMENTO</span> <br /><br />
                   <label for="recordFreezer">Congelador</label>
                   <select id="recordFreezer" name="freezer"></select>
                 </div>
@@ -286,36 +386,35 @@
                   <label for="recordSlot">Cajón: </label>
                   <input
                     id="recordSlot"
-                    type="number"
-                    title="Cajón"
-                    min="1"
                     max="10"
+                    min="1"
+                    title="Cajón"
+                    type="number"
                     value="1"
                   />
                 </div>
                 <div class="group">
                   <label for="recordFreezeDate">Fecha congelación</label>
                   <input
-                    type="date"
                     id="recordFreezeDate"
-                    name="freeze date"
-                    value="2022-05-09"
-                    min="2022-01-01"
                     max="2040-12-31"
+                    min="2022-01-01"
+                    name="freeze date"
+                    type="date"
+                    value="2022-05-09"
                   />
                 </div>
+                <br />
                 <button class="btn" id="submitAddRecordButton" type="submit">
-                  Registrar
+                  Congelar
                 </button>
                 <div class="err" hidden id="recordAddErrorMessage">
+                  <!--error??-->
                   <br />
                 </div>
               </form>
               <div class="err" hidden id="recordBoxAddMessage"></div>
-            </div>
-            <div id="alertBox" class="info-box" style="display: none">
-              <table id="alertTable"></table>
-              <div class="err" hidden id="alertBoxMessage"></div>
+              <!--error???-->
             </div>
           </section>
         </div>

@@ -16,12 +16,15 @@ const apiHeaders = new Headers();
 apiHeaders.append("Content-Type", API_CONTENT_TYPE);
 
 const logBox = document.getElementById("logBox"),
+  userAvatar = document.getElementById("userAvatar"),
+  startBox = document.getElementById("startBox"),
   loginForm = document.getElementById("loginForm"),
   userInfo = document.getElementById("userInfo"),
   avatarSignup = document.getElementById("avatarSignup"),
   avatarSignupPreview = document.getElementById("avatarSignupPreview"),
   logoutButton = document.getElementById("logoutButton"),
   signupButton = document.getElementById("signupButton"),
+  signinButton = document.getElementById("signinButton"),
   signupForm = document.getElementById("signupForm");
 
 loginForm.addEventListener("submit", processLogin);
@@ -29,20 +32,39 @@ signupForm.addEventListener("submit", processSignup);
 avatarSignup.addEventListener("change", processAvatar);
 
 logoutButton.addEventListener("click", logout);
+
+signinButton.addEventListener("click", () => {
+  loginForm.hidden = false;
+  signinButton.hidden = true;
+  signupButton.hidden = false;
+  signupForm.hidden = true;
+  logoutButton.hidden = true;
+});
+
 signupButton.addEventListener("click", () => {
-  loginForm.classList.add("hidden");
-  signupButton.classList.add("hidden");
-  signupForm.classList.add("nothidden");
+  loginForm.hidden = true;
+  signinButton.hidden = false;
+  signupButton.hidden = true;
+  signupForm.hidden = false;
+  logoutButton.hidden = true;
 });
 
 if (jwtToken != null) {
-  // cuando tenemos almacenad el jwt existía un login previo
-  clearActions();
-  signupButton.classList.add("hidden");
+  // cuando tenemos almacenar el jwt existía un login previo
+  userAvatar.hidden = false;
+  signupButton.hidden = true;
+
   userInfo.innerText = JSON.parse(sessionUserInfo).username;
+
+  logBox.hidden = true;
+  startBox.hidden = false;
+  logoutButton.hidden = false;
 } else {
   // si no es así mostramos el formulario de login
-  logBox.setAttribute("style", "display: flex");
+  logBox.hidden = false;
+  startBox.hidden = true;
+  logoutButton.hidden = true;
+  signupButton.hidden = false;
 }
 
 function processLogin(event) {
@@ -52,7 +74,7 @@ function processLogin(event) {
 
   console.debug(`enviado formulario login: ${emailLogin} / ${paswordLogin}`);
 
-  loginErrorMessage.classList.add("hidden");
+  loginErrorMessage.hidden = true;
 
   const jsonRequest = JSON.stringify({
     email: emailLogin,
@@ -75,10 +97,12 @@ function processLogin(event) {
       console.log(jsonResult);
       if (jsonResult.token != null) {
         console.log("Login correcto");
+        alert(`Login correcto. Bienvenido/a ${jsonResult.username}`);
         //almecanemos el token jwt y la info de usuario
         localStorage.setItem("jwtToken", jsonResult.token);
         localStorage.setItem("sessionUserInfo", JSON.stringify(jsonResult));
-        signupButton.classList.add("hidden");
+        signupButton.hidden = true;
+        logoutButton.hidden = false;
         location.reload();
       } else {
         apiError(false, loginErrorMessage, endpoint, jsonResult.error);
@@ -103,7 +127,7 @@ function processSignup(event) {
   const signupErrorMessage = document.getElementById("signupErrorMessage");
   const signupAvatar = avatarSignupPreview.src || "";
 
-  signupErrorMessage.classList.add("hidden");
+  signupErrorMessage.hidden = true;
 
   const jsonRequest = JSON.stringify({
     username: usernameSignup,
@@ -128,8 +152,7 @@ function processSignup(event) {
       const jsonResult = JSON.parse(result);
       console.log(jsonResult);
       if (jsonResult.error == null) {
-        console.log("Signup correcto");
-        window.alert("Signup correcto! Puedes logearte con tus credenciales");
+        alert("Signup correcto! Puedes logearte con tus credenciales");
         location.reload();
       } else {
         apiError(false, signupErrorMessage, endpoint, jsonResult.error);
@@ -159,7 +182,7 @@ function processAvatar(event) {
 
     if (avatarWidth > AVATAR_MAX_WIDTH || avatarHeight > AVATAR_MAX_HEIGHT) {
       alert(
-        `El avatar es demasiado grande. Anchura: ${avatarWidth}/${AVATAR_MAX_WIDTH} Altura: ${avatarHeight}/${AVATAR_MAX_HEIGHT}`
+        `El avatar es demasiado grande. Ancho: ${avatarWidth}/${AVATAR_MAX_WIDTH} Altura: ${avatarHeight}/${AVATAR_MAX_HEIGHT}`
       );
       avatarSignupPreview.src = "";
     }
@@ -172,5 +195,6 @@ function logout(event) {
   console.log("logout");
   localStorage.clear();
   location.reload();
+  signinButton.hidden = false;
   event.preventDefault();
 }
