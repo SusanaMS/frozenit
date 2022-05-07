@@ -69,9 +69,12 @@ function processRecordGet(event) {
           );
         } else {
           recordTable.innerHTML = "";
-          jsonArray2htmlTable(recordTable, jsonResult, [
-            { func: unfreeze, name: "Descongelar" },
-          ]);
+          jsonArray2htmlTable(
+            recordTable,
+            jsonResult,
+            [{ func: unfreeze, name: "Descongelar" }],
+            ["alert"]
+          );
         }
       } else {
         apiError(
