@@ -395,6 +395,8 @@ function processAlertGet(event) {
         } else {
           recordTable.innerHTML = "";
 
+          // filtarmos el array que nos retorna la API para excluir las alertas de
+          // level NORMAL
           const alerts = jsonResult.filter((rec) => rec.alerta != "NORMAL");
 
           if (alerts.length) {
