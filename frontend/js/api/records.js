@@ -13,6 +13,7 @@ const MODEL_ENPOINT = "records",
   recordGet = document.getElementById("recordGet"),
   recordBox = document.getElementById("recordBox"),
   recordTable = document.getElementById("recordTable"),
+  logBox = document.getElementById("logBox"),
   recordBoxMessage = document.getElementById("recordBoxMessage"),
   recordAdd = document.getElementById("recordAdd"),
   recordBoxAdd = document.getElementById("recordBoxAdd"),
@@ -34,11 +35,12 @@ recordFreezer.addEventListener("change", onSelectMax);
 alertGet.addEventListener("click", processAlertGet);
 
 function processRecordGet(event) {
-  clearActions();
-  event.path[0].style.color = "#1b253d";
-  if (!checkJWT(jwtToken)) {
-    return null;
-  }
+  clearActions().then((result) => {
+    if (!checkJWT(jwtToken)) {
+      logBox.style = "display: block";
+      return null;
+    }
+  });
 
   const email = getUserEmail();
   if (email == null) {
@@ -68,7 +70,7 @@ function processRecordGet(event) {
             false,
             recordBoxMessage,
             endpoint,
-            "no hay registros asociados a su cuenta"
+            "No hay alimentos congelados"
           );
         } else {
           recordTable.innerHTML = "";
@@ -76,7 +78,7 @@ function processRecordGet(event) {
             recordTable,
             jsonResult,
             [{ func: unfreeze, name: "Descongelar" }],
-            ["alert"]
+            ["alerta"]
           );
         }
       } else {
@@ -183,12 +185,12 @@ async function recordFoodSelect() {
 }
 
 function clickRecordAdd(event) {
-  clearActions();
-  event.path[0].style.color = "#1b253d";
-
-  if (!checkJWT(jwtToken)) {
-    return null;
-  }
+  clearActions().then((result) => {
+    if (!checkJWT(jwtToken)) {
+      logBox.style = "display: block";
+      return null;
+    }
+  });
 
   const email = getUserEmail();
   if (email == null) {
@@ -202,8 +204,11 @@ function clickRecordAdd(event) {
   // el formulario con las option ya metidas en las select
   Promise.all([recordFreezerSelect(email), recordFoodSelect()]).then((res) => {
     localStorage.setItem("freezers", JSON.stringify(res[0]));
-    onSelectMax();
-    recordBoxAdd.setAttribute("style", "display: flex");
+    if (onSelectMax()) {
+      recordBoxAdd.setAttribute("style", "display: flex");
+    } else {
+      alert("No dispone de congeladores!!");
+    }
   });
 
   event.preventDefault();
@@ -219,9 +224,15 @@ function onSelectMax() {
   const sel = freezers.find((obj) => {
     return obj.freezer === recordFreezer[recordFreezer.selectedIndex].value;
   });
-  const maxSlots = sel.slots != null ? sel.slots : 5;
+  let maxSlots = 0;
+  if (sel != null) {
+    maxSlots = sel.slots != null ? sel.slots : 5;
+  } else {
+    return false;
+  }
+
   recordSlot.setAttribute("max", maxSlots);
-  return null;
+  return true;
 }
 
 function processRecordAdd(event) {
@@ -336,7 +347,7 @@ function unfreeze(event) {
     .then((result) => {
       const jsonResult = JSON.parse(result);
       if (jsonResult != null && !jsonResult.error) {
-        window.alert("Descongelado de alimento correcto");
+        window.alert("Alimento descongelado correctamente");
         processRecordGet(event);
       } else {
         apiError(
@@ -356,11 +367,12 @@ function unfreeze(event) {
 }
 
 function processAlertGet(event) {
-  clearActions();
-  event.path[0].style.color = "#1b253d";
-  if (!checkJWT(jwtToken)) {
-    return null;
-  }
+  clearActions().then((result) => {
+    if (!checkJWT(jwtToken)) {
+      logBox.style = "display: block";
+      return null;
+    }
+  });
 
   const email = getUserEmail();
   if (email == null) {

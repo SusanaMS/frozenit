@@ -1,4 +1,4 @@
-import { BOX_CLASSES, REF_CLASSES } from "../common/constants.js";
+import { BOX_CLASSES } from "../common/constants.js";
 
 const _tr_ = document.createElement("tr"),
   _th_ = document.createElement("th"),
@@ -136,23 +136,25 @@ function checkJWT(jwtToken) {
 }
 
 function getUserEmail() {
-  const email = JSON.parse(localStorage.getItem("sessionUserInfo")).email;
+  let email = null;
+  try {
+    email = JSON.parse(localStorage.getItem("sessionUserInfo")).email;
+  } catch (e) {
+    // no
+  }
   if (email == null) {
     console.error("No se puede obtener el mail de usuario");
-    window.alert("Error al obtener el id de usuario");
   }
   return email;
 }
 
 // recorremos todos los elemento de acciones para limpiarlos de la pantalla
 // cuando se pulse una nueva opción
-function clearActions() {
-  Array.from(document.getElementsByClassName(REF_CLASSES)).forEach(
-    (ele) => (ele.style.color = "#99a0b0")
-  );
+async function clearActions() {
   Array.from(document.getElementsByClassName(BOX_CLASSES)).forEach(
     (ele) => (ele.style = "display: none")
   );
+
   return null;
 }
 

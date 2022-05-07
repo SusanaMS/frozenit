@@ -2,6 +2,7 @@
 import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
 import {
   apiError,
+  checkJWT,
   clearActions,
   jsonArray2htmlTable,
 } from "../common/utils.js";
@@ -12,6 +13,7 @@ const MODEL_ENPOINT = "freezers",
   freezerAdd = document.getElementById("freezerAdd"),
   freezerBoxAdd = document.getElementById("freezerBoxAdd"),
   freezerBox = document.getElementById("freezerBox"),
+  logBox = document.getElementById("logBox"),
   freezerTable = document.getElementById("freezerTable"),
   freezerBoxMessage = document.getElementById("freezerBoxMessage"),
   freezerAddErrorMessage = document.getElementById("freezerAddErrorMessage"),
@@ -21,26 +23,27 @@ let apiHeaders;
 
 freezerGet.addEventListener("click", processFreezerGet);
 freezerAdd.addEventListener("click", (event) => {
-  clearActions();
-  event.path[0].style.color = "#1b253d";
-  if (jwtToken == null) {
-    console.error("debe estar logeado");
-    window.alert("Debe estar logeado");
-    return;
-  }
-  freezerBoxAdd.setAttribute("style", "display: flex");
+  clearActions().then((result) => {
+    console.log(result);
+    if (jwtToken == null) {
+      console.error("debe estar logeado");
+      window.alert("Debe estar logeado");
+
+      logBox.style = "display: block";
+      return;
+    }
+    freezerBoxAdd.setAttribute("style", "display: flex");
+  });
 });
 addFreezerForm.addEventListener("submit", processFreezerAdd);
 
-function processFreezerGet() {
-  clearActions();
-  event.path[0].style.color = "#1b253d";
-
-  if (jwtToken == null) {
-    console.error("debe estar logeado");
-    window.alert("Debe estar logeado");
-    return;
-  }
+function processFreezerGet(event) {
+  clearActions().then((result) => {
+    if (!checkJWT(jwtToken)) {
+      logBox.style = "display: block";
+      return null;
+    }
+  });
   new Promise(() => {
     apiHeaders = new Headers();
     apiHeaders.append("Content-Type", API_CONTENT_TYPE);
@@ -74,7 +77,7 @@ function getFreezersByUser(email) {
             false,
             freezerBoxMessage,
             endpoint,
-            "no hay frigorificos asociados a su cuenta"
+            "No dispones de congeladores"
           );
         } else {
           // eliminamos el contenido previo de la tabla
@@ -162,7 +165,7 @@ function deleteFreezer(elem) {
       const jsonResult = JSON.parse(result);
       console.log(jsonResult);
       if (jsonResult != null && !jsonResult.error) {
-        window.alert("Baja de frigorifico correcta");
+        window.alert("Congelador eliminado correctamente");
         const sessionUserInfo = JSON.parse(
           localStorage.getItem("sessionUserInfo")
         );
@@ -249,7 +252,7 @@ function processFreezerAdd(event) {
       const jsonResult = JSON.parse(result);
       console.log(jsonResult);
       if (jsonResult.error == null) {
-        window.alert("alta de congelador correcta!");
+        window.alert("Alta de congelador correcta!");
         getFreezersByUser(email);
       } else {
         apiError(false, freezerAddErrorMessage, endpoint, jsonResult.error);

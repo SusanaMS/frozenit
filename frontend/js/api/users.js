@@ -4,6 +4,7 @@ import {
   API_CONTENT_TYPE,
   AVATAR_MAX_WIDTH,
   AVATAR_MAX_HEIGHT,
+  AVATAR_DEFAULT_IMG,
 } from "../common/constants.js";
 import { apiError, clearActions } from "../common/utils.js";
 
@@ -22,6 +23,7 @@ const logBox = document.getElementById("logBox"),
   userInfo = document.getElementById("userInfo"),
   avatarSignup = document.getElementById("avatarSignup"),
   avatarSignupPreview = document.getElementById("avatarSignupPreview"),
+  avatarImg = document.getElementById("avatarImg"),
   logoutButton = document.getElementById("logoutButton"),
   signupButton = document.getElementById("signupButton"),
   signinButton = document.getElementById("signinButton"),
@@ -55,13 +57,14 @@ if (jwtToken != null) {
   signupButton.hidden = true;
 
   userInfo.innerText = JSON.parse(sessionUserInfo).username;
+  avatarImg.src = JSON.parse(sessionUserInfo).avatar || AVATAR_DEFAULT_IMG;
 
   logBox.hidden = true;
   startBox.hidden = false;
   logoutButton.hidden = false;
 } else {
   // si no es así mostramos el formulario de login
-  logBox.hidden = false;
+  logBox.style = "display: block";
   startBox.hidden = true;
   logoutButton.hidden = true;
   signupButton.hidden = false;
@@ -152,7 +155,7 @@ function processSignup(event) {
       const jsonResult = JSON.parse(result);
       console.log(jsonResult);
       if (jsonResult.error == null) {
-        alert("Signup correcto! Puedes logearte con tus credenciales");
+        alert("Registro correcto! Ya puedes logearte con tus credenciales");
         location.reload();
       } else {
         apiError(false, signupErrorMessage, endpoint, jsonResult.error);

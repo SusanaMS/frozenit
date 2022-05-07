@@ -26,5 +26,5 @@ INSERT INTO frozenit.records VALUES
 
 -- frozenit.alerts
 INSERT INTO frozenit.alerts VALUES
-    ('CRITICAL', 14, 'alimento muy cerca de la fecha de caducidad'),
+    ('CRITICAL', 7, 'alimento muy cerca de la fecha de caducidad'),
     ('WARNING', 30, 'alimento a planificar para descongelar');

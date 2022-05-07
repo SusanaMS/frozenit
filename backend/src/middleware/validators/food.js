@@ -4,8 +4,6 @@ const validateAddFood = [
   body("name")
     .exists()
     .withMessage("Se requiere: name")
-    .isAlpha()
-    .withMessage("Solo caracteres alfabeticos")
     .isLength({ min: 2 })
     .withMessage("Longitud míníma 2"),
   body("category")

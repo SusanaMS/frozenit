@@ -15,7 +15,6 @@ class UserModel {
                       is_admin 
       FROM ${this.tableName}`;
 
-    console.log(sql);
     return queryHandler.default(sql, null);
   };
 

@@ -4,6 +4,7 @@ import {
   jsonArray2htmlTable,
   array2option,
   clearActions,
+  checkJWT,
 } from "../common/utils.js";
 
 const MODEL_ENPOINT = "foods",
@@ -11,6 +12,7 @@ const MODEL_ENPOINT = "foods",
   //foodGet = document.getElementById("foodGet"),
   foodCategories = document.getElementById("foodCategories"),
   foodAdd = document.getElementById("foodAdd"),
+  logBox = document.getElementById("logBox"),
   foodBoxAdd = document.getElementById("foodBoxAdd"),
   foodBox = document.getElementById("foodBox"),
   foodTable = document.getElementById("foodTable"),
@@ -25,14 +27,13 @@ foodAdd.addEventListener("click", clickFoodAdd);
 addFoodForm.addEventListener("submit", processFoodAdd);
 
 function processFoodGet(event) {
-  clearActions();
-  event.path[0].style.color = "#1b253d";
+  clearActions().then((result) => {
+    if (!checkJWT(jwtToken)) {
+      logBox.style = "display: block";
+      return null;
+    }
+  });
 
-  if (jwtToken == null) {
-    console.error("debe estar logeado");
-    window.alert("Debe estar logeado");
-    return;
-  }
   apiHeaders = new Headers();
   apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
 
@@ -77,17 +78,13 @@ function processFoodGet(event) {
 }
 
 function clickFoodAdd(event) {
-  clearActions();
-  event.path[0].style.color = "#1b253d";
-
-  foodCategories.options.length = 0;
-
-  if (jwtToken == null) {
-    console.error("debe estar logeado");
-    window.alert("Debe estar logeado");
-    return;
+  clearActions().then((result) => {});
+  if (!checkJWT(jwtToken)) {
+    logBox.style = "display: block";
+    return null;
   }
 
+  foodCategories.options.length = 0;
   apiHeaders = new Headers();
   apiHeaders.append("Authorization", `Bearer ${jwtToken}`);
 
