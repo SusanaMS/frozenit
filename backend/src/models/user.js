@@ -5,7 +5,15 @@ class UserModel {
   static tableName = "frozenit.users";
 
   static find = async (params = {}) => {
-    let sql = `SELECT * FROM ${this.tableName}`;
+    let sql = `SELECT email,
+                      pass,
+                      username,
+                      surname,
+                      phone,
+                      subscribe,
+                      CONVERT(avatar USING utf8) as avatar,
+                      is_admin 
+      FROM ${this.tableName}`;
 
     console.log(sql);
     return queryHandler.default(sql, null);
@@ -21,7 +29,15 @@ class UserModel {
       return [];
     }
 
-    const sql = `SELECT * FROM ${this.tableName} WHERE ${colString}`;
+    const sql = `SELECT  email,
+                         pass,
+                         username,
+                         surname,
+                         phone,
+                         subscribe,
+                         CONVERT(avatar USING utf8) as avatar,
+                         is_admin 
+      FROM ${this.tableName} WHERE ${colString}`;
 
     // pasamos el SQL con el BIND a los valores
     const result = await queryHandler.default(sql, [...values]);
