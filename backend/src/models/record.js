@@ -13,7 +13,13 @@ class RecordModel {
          IFNULL(slot, 1) as slot,
          DATE_FORMAT(add_date, '%Y-%m-%d') AS congelado,
          DATE_FORMAT(expiration_date, '%Y-%m-%d') AS caduca,
-         DATEDIFF(expiration_date, CURDATE()) as dias
+         DATEDIFF(expiration_date, CURDATE()) as dias,
+         CASE
+           WHEN DATEDIFF(expiration_date, CURDATE()) <= 0 THEN 'EXPIRED'
+           WHEN DATEDIFF(expiration_date, CURDATE())  <= (SELECT days from alerts WHERE  level='CRITICAL') THEN 'CRITICAL'
+           WHEN DATEDIFF(expiration_date, CURDATE())  <= (SELECT days from alerts WHERE  level='WARNING') THEN 'WARNING'
+           ELSE 'NORMAL'
+         END as alert
        FROM records WHERE is_deleted = 0`;
 
     if (email == null) {
