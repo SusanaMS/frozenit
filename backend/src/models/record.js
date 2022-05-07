@@ -4,7 +4,7 @@ import { colValueBinder } from "../db/utils.js";
 class RecordModel {
   static tableName = "frozenit.records";
 
-  static find = async (email) => {
+  static find = async ({ email }) => {
     let sql = `
        SELECT
          id_record as ID,
@@ -19,7 +19,7 @@ class RecordModel {
            WHEN DATEDIFF(expiration_date, CURDATE())  <= (SELECT days from alerts WHERE  level='CRITICAL') THEN 'CRITICAL'
            WHEN DATEDIFF(expiration_date, CURDATE())  <= (SELECT days from alerts WHERE  level='WARNING') THEN 'WARNING'
            ELSE 'NORMAL'
-         END as alert
+         END as alerta
        FROM records WHERE is_deleted = 0`;
 
     if (email == null) {
