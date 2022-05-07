@@ -1,5 +1,10 @@
 // doc
-import { BASE_ENDPOINT, API_CONTENT_TYPE } from "../common/constants.js";
+import {
+  BASE_ENDPOINT,
+  API_CONTENT_TYPE,
+  AVATAR_MAX_WIDTH,
+  AVATAR_MAX_HEIGHT,
+} from "../common/constants.js";
 import { apiError, clearActions } from "../common/utils.js";
 
 const MODEL_ENPOINT = "users";
@@ -10,15 +15,18 @@ const sessionUserInfo = localStorage.getItem("sessionUserInfo");
 const apiHeaders = new Headers();
 apiHeaders.append("Content-Type", API_CONTENT_TYPE);
 
-const logBox = document.getElementById("logBox");
-const loginForm = document.getElementById("loginForm");
-const userInfo = document.getElementById("userInfo");
-const logoutButton = document.getElementById("logoutButton");
-const signupButton = document.getElementById("signupButton");
-const signupForm = document.getElementById("signupForm");
+const logBox = document.getElementById("logBox"),
+  loginForm = document.getElementById("loginForm"),
+  userInfo = document.getElementById("userInfo"),
+  avatarSignup = document.getElementById("avatarSignup"),
+  avatarSignupPreview = document.getElementById("avatarSignupPreview"),
+  logoutButton = document.getElementById("logoutButton"),
+  signupButton = document.getElementById("signupButton"),
+  signupForm = document.getElementById("signupForm");
 
 loginForm.addEventListener("submit", processLogin);
 signupForm.addEventListener("submit", processSignup);
+avatarSignup.addEventListener("change", processAvatar);
 
 logoutButton.addEventListener("click", logout);
 signupButton.addEventListener("click", () => {
@@ -93,6 +101,7 @@ function processSignup(event) {
     "passwordSignupConfirmation"
   ).value;
   const signupErrorMessage = document.getElementById("signupErrorMessage");
+  const signupAvatar = avatarSignupPreview.src || "";
 
   signupErrorMessage.classList.add("hidden");
 
@@ -101,6 +110,7 @@ function processSignup(event) {
     email: emailSignup,
     password: passwordSignup,
     validation_password: passwordSignupConfirmation,
+    avatar: signupAvatar,
   });
 
   const requestOptions = {
@@ -128,6 +138,32 @@ function processSignup(event) {
     .catch((error) =>
       apiError(true, signupErrorMessage, endpoint, error.message)
     );
+
+  event.preventDefault();
+}
+
+function processAvatar(event) {
+  const avatarFile = event.target.files[0];
+  let reader = new FileReader();
+  reader.readAsDataURL(avatarFile);
+
+  reader.onloadend = function () {
+    avatarSignupPreview.src = reader.result;
+  };
+
+  avatarSignupPreview.onload = (event) => {
+    const avatarWidth = event.target.width;
+    const avatarHeight = event.target.height;
+
+    console.log(`avatar anchura: ${avatarWidth} altura: ${avatarHeight}`);
+
+    if (avatarWidth > AVATAR_MAX_WIDTH || avatarHeight > AVATAR_MAX_HEIGHT) {
+      alert(
+        `El avatar es demasiado grande. Anchura: ${avatarWidth}/${AVATAR_MAX_WIDTH} Altura: ${avatarHeight}/${AVATAR_MAX_HEIGHT}`
+      );
+      avatarSignupPreview.src = "";
+    }
+  };
 
   event.preventDefault();
 }
