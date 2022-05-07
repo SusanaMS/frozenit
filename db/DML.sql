@@ -8,7 +8,7 @@ INSERT INTO frozenit.users VALUES
 -- frozenit.freezer
 INSERT INTO frozenit.freezer (users_email) VALUES ('anasus@gmail.com');
 INSERT INTO frozenit.freezer VALUES
-(NULL, 'prueba@gmail.com', 'Congelador Casa', 'Siemens', '4502B', 5, 4, 'Cajón 2 roto');
+(NULL, 'prueba@gmail.com', 'Congelador Casa', 'Siemens', '4502B', 5, 4, 'Slot 2 roto');
 
 -- frozenit.categories
 INSERT INTO  frozenit.categories VALUES
@@ -23,3 +23,8 @@ INSERT INTO frozenit.foods VALUES
 -- frozenit.records
 INSERT INTO frozenit.records VALUES
 (NULL, 'anasus@gmail.com', 1, 1, 1, CURDATE(), CURDATE() + INTERVAL 180 DAY, CURDATE(), FALSE, NULL);
+
+-- frozenit.alerts
+INSERT INTO frozenit.alerts VALUES
+    ('CRITICAL', 14, 'alimento muy cerca de la fecha de caducidad'),
+    ('WARNING', 30, 'alimento a planificar para descongelar');

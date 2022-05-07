@@ -69,3 +69,9 @@ qr BLOB NULL,
      REFERENCES frozenit.foods(id)
      ON DELETE CASCADE
 ) ENGINE=INNODB;
+
+CREATE TABLE frozenit.alerts (
+  level VARCHAR(50) PRIMARY KEY NOT NULL,
+  days MEDIUMINT NOT NULL,
+  notes TEXT NULL
+) ENGINE=INNODB;
