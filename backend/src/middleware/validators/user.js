@@ -53,6 +53,7 @@ const validateSignUp = [
     .withMessage("Solo caracteres alfanúmericos")
     .isLength({ min: 8 })
     .withMessage("Longitud míníma 8"),
+  body("avatar").optional(),
 ];
 
 export { validateLogin, validateSignUp };

@@ -37,9 +37,10 @@ class UserModel {
     surname,
     phone,
     isAdmin = 0,
+    avatar = "",
   }) => {
     const sql = `INSERT INTO ${this.tableName}
-        (email, pass, username, surname,  phone, is_admin) VALUES (?,?,?,?,?,?)`;
+        (email, pass, username, surname,  phone, is_admin, avatar) VALUES (?,?,?,?,?,?,?)`;
 
     const result = await queryHandler.default(sql, [
       email,
@@ -48,6 +49,7 @@ class UserModel {
       surname,
       phone,
       isAdmin,
+      avatar,
     ]);
 
     return result;
