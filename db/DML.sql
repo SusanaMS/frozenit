@@ -13,7 +13,12 @@ INSERT INTO frozenit.freezer VALUES
 -- frozenit.categories
 INSERT INTO  frozenit.categories VALUES
 ('Verduras', 180, 'Evitar piezas completas'),
-('Carne', 360, NULL);
+('Carne', 360, NULL),
+('Fruta', 180, NULL),
+('Liquidos', 60, NULL),
+('Panaderia', 5, NULL),
+('Pescado', 90, 'Descamar'),
+('Precocinados', 30, NULL);
 
 -- frozenit.foods
 INSERT INTO frozenit.foods VALUES
