@@ -36,9 +36,9 @@ function jsonArray2htmlTable(
     jsonTable.push(json);
   });
 
-  console.debug(jsonTable);
-
   const columns = addAllColumnHeaders(jsonTable, table);
+
+  console.debug(jsonArray, columns);
 
   let idColumnIndex = -1,
     numberOfButtons = 0;
@@ -64,7 +64,12 @@ function jsonArray2htmlTable(
         // si la columan tratada corresponde a donde está posicionada la ID
         // guardamos la id para setearla al boton/es
         idCelda = idCelda == null && j === idColumnIndex ? celda : idCelda;
-        td.appendChild(document.createTextNode(celda));
+
+        // siempre mandamos la id en la pos 0 , en base a esto evitamos mostrarla
+        // pero la usamos para generar los botones
+        if (j != 0) {
+          td.appendChild(document.createTextNode(celda));
+        }
       } else if (buttonFuncArray != null && idColumnIndex >= 0) {
         // en caso de sobrepasemos la longitud de columnas tendremos que añadir los
         // buttons como celdas adicionales
@@ -76,7 +81,9 @@ function jsonArray2htmlTable(
         td.appendChild(button);
         buttonCont++;
       }
-      tr.appendChild(td);
+      if (j != 0) {
+        tr.appendChild(td);
+      }
     }
     table.appendChild(tr);
   }
@@ -95,9 +102,12 @@ function addAllColumnHeaders(arr, table) {
     for (const key in arr[i]) {
       if (arr[i].hasOwnProperty(key) && columnSet.indexOf(key) === -1) {
         columnSet.push(key);
-        const th = _th_.cloneNode(false);
-        th.appendChild(document.createTextNode(capitalizeFirstLetter(key)));
-        tr.appendChild(th);
+        // siempre mandamos la id en la pos 0 , en base a esto evitamos mostrarla
+        if (key.toLowerCase() != "id") {
+          const th = _th_.cloneNode(false);
+          th.appendChild(document.createTextNode(capitalizeFirstLetter(key)));
+          tr.appendChild(th);
+        }
       }
     }
   }
