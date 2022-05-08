@@ -12,7 +12,7 @@ class UserController {
     // esperamos a que se resuelva la Query con un awit
     let userList = await UserModel.find();
     // en caso de que el array devuelto no tenga contenido arrojamos una excepction
-    if (!userList.length) {
+    if (userList === null || !userList.length) {
       res.status(400).send({
         message: "No se han encontrado usuarios",
       });
@@ -23,7 +23,7 @@ class UserController {
 
   static getUserByEmail = async (req, res, next) => {
     const user = await UserModel.findOne({ email: req.params.email });
-    if (user.length !== 1) {
+    if (user === null || user.length !== 1) {
       res.status(400).send({
         message: "Usuario no encontrado",
       });
@@ -47,7 +47,7 @@ class UserController {
     const result = await UserModel.insert(req.body);
     console.log("signup result", result);
 
-    if (!result[0].affectedRows) {
+    if (result === null || !result[0].affectedRows) {
       res.status(404).json({ error: "error en signup" });
       console.error("error en signup");
       return;
@@ -69,7 +69,7 @@ class UserController {
     const user = await UserModel.findOne({ email });
 
     console.log(user);
-    if (user.length !== 1) {
+    if (user === null || user.length !== 1) {
       res.status(404).json({ error: "usuario no encontrado" });
       console.error(`usuario ${email} no encontrdao`);
       return;

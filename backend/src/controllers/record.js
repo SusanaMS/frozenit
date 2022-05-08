@@ -6,7 +6,7 @@ class RecordController {
     // esperamos a que se resuelva la Query con un await
     let recordList = await RecordModel.find();
     // en caso de que el array devuelto no tenga contenido arrojamos una excepction
-    if (!recordList.length) {
+    if (recordList === null || !recordList.length) {
       res.status(400).send({
         message: "No se han encotrado registros",
       });
@@ -18,7 +18,7 @@ class RecordController {
   static getRecordsByUser = async (req, res, next) => {
     const records = await RecordModel.find(req.params);
 
-    if (!records.length) {
+    if (records === null || !records.length) {
       res.status(404).json({ error: "no se han encontrado registros" });
       console.error("no se han encontrado registros");
       return;
@@ -41,6 +41,10 @@ class RecordController {
     // para la categoria del elemento a añadir
 
     const resultExp = await RecordModel.findExpiration(foodId);
+    if (resultExp === null) {
+      res.status(404).json({ error: "error en backend, consulte con sporte" });
+      return;
+    }
     const { expiration_days } = resultExp;
 
     // calculamos el expiration date y se lo añadimos a los parametros
@@ -54,7 +58,7 @@ class RecordController {
     console.log(params);
 
     const result = await RecordModel.insert(params);
-    if (!result[0].affectedRows) {
+    if (result === null || !result[0].affectedRows) {
       res.status(404).json({ error: "error en al registrar en congelador" });
       console.error("error en al registrar en congelador");
       return;
@@ -69,7 +73,7 @@ class RecordController {
   static deleteRecord = async (req, res, next) => {
     console.debug(`id: ${req.params.id}`);
     const result = await RecordModel.update(req.params.id);
-    if (!result[0].affectedRows) {
+    if (result === null || !result[0].affectedRows) {
       res.status(404).json({ error: "error en al descongelar alimento" });
       console.error("error en al descongelar alimento");
       return;

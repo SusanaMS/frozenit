@@ -27,6 +27,7 @@ class Pool {
       }
 
       if (err) {
+        console.debug(err);
         switch (err.code) {
           case "PROTOCOL_CONNECTION_LOST":
             console.error("Se ha cerrado la conexión contra la BD");
@@ -46,7 +47,12 @@ class Pool {
   // https://www.npmjs.com/package/mysql2#using-promise-wrapper
   // construimos un manejador asicrono de queries
   queryHandler = async (sql, values) => {
-    return await this.db.promise().query(sql, values);
+    try {
+      return await this.db.promise().query(sql, values);
+    } catch (e) {
+      console.error(`fallo al ejecutar el sql: ${sql} => ${e.message}`);
+      return null;
+    }
   };
 }
 

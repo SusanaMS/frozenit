@@ -6,7 +6,7 @@ class FreezerController {
     // esperamos a que se resuelva la Query con un await
     let freezerList = await FreezerModel.find();
     // en caso de que el array devuelto no tenga contenido arrojamos una excepction
-    if (!freezerList.length) {
+    if (freezerList === null || !freezerList.length) {
       res.status(400).send({
         message: "No se han encotrado frigorificos",
       });
@@ -20,7 +20,7 @@ class FreezerController {
       users_email: req.params.email,
     });
     console.log(freezer, "<<<<<");
-    if (!freezer.length) {
+    if (freezer === null || !freezer.length) {
       res.status(404).json({ error: "no se ha encontrado el frigorifico" });
       console.error("error: no se ha encontrado el frigorifico");
       return;
@@ -39,7 +39,7 @@ class FreezerController {
     const result = await FreezerModel.insert(req.body);
     console.log("addFreezer result", result);
 
-    if (!result[0].affectedRows) {
+    if (result === null || !result[0].affectedRows) {
       res.status(404).json({ error: "error en alta de frigorifico" });
       console.error("error en alta de frigorifico");
       return;
@@ -50,7 +50,7 @@ class FreezerController {
 
   static deleteFreezer = async (req, res, next) => {
     const result = await FreezerModel.delete(req.params.id);
-    if (!result[0].affectedRows) {
+    if (result === null || !result[0].affectedRows) {
       res.status(404).json({ error: "error en baja de frigorifico" });
       console.error("error en baja de frigorifico");
       return;

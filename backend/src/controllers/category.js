@@ -7,7 +7,7 @@ class CategoryController {
     let categoryList = await CategoryModel.find();
 
     // en caso de que el array devuelto no tenga contenido arrojamos una excepction
-    if (!categoryList.length) {
+    if (categoryList === null || !categoryList.length) {
       res.status(400).send({
         message: "No se han encotrado categorias",
       });
@@ -20,7 +20,7 @@ class CategoryController {
     const category = await CategoryModel.findOne({
       name_category: req.params.name,
     });
-    if (category.length !== 1) {
+    if (category === null || category.length !== 1) {
       res.status(400).send({
         message: "No se ha encontrado la categoría",
       });
@@ -38,7 +38,7 @@ class CategoryController {
     const result = await CategoryModel.insert(req.body);
     console.log("addCategory result", result);
 
-    if (!result[0].affectedRows) {
+    if (result === null || !result[0].affectedRows) {
       res.status(404).json({ error: "error en alta de categoria" });
       console.error("error en alta de categoria");
       return;
@@ -48,7 +48,7 @@ class CategoryController {
 
   static deleteCategory = async (req, res, next) => {
     const result = await CategoryModel.delete(req.params.name);
-    if (!result[0].affectedRows) {
+    if (result === null || !result[0].affectedRows) {
       res.status(404).json({ error: "error en baja de categoria" });
       console.error("error en baja de categoria");
       return;

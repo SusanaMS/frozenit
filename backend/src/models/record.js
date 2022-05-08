@@ -57,8 +57,11 @@ class RecordModel {
 
     // pasamos el SQL con el BIND a los valores
     const result = await queryHandler.default(sql, [foodId]);
-
-    return result[0][0];
+    if (result !== null) {
+      return result[0][0];
+    } else {
+      return null;
+    }
   };
 
   static insert = async ({
