@@ -29,7 +29,7 @@ const auth = () => {
 
       // si no lo encontramos el usuario probablemente ha sido eliminado pero el token
       // permanicía en el cliente
-      if (user.length !== 1) {
+      if (user === null || user.length !== 1) {
         res.status(404).json({ error: "usuario no encontrado" });
         return;
       }
