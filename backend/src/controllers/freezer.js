@@ -19,7 +19,7 @@ class FreezerController {
     const freezer = await FreezerModel.find({
       users_email: req.params.email,
     });
-    console.log(freezer, "<<<<<");
+
     if (freezer === null || !freezer.length) {
       res.status(404).json({ error: "no se ha encontrado el frigorifico" });
       console.error("error: no se ha encontrado el frigorifico");
