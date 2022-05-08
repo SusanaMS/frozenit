@@ -106,6 +106,45 @@ nav {
   top: 273px;
 }
 
+table {
+  position: absolute;
+  right: 150px;
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid whitesmoke;
+}
+
+thead th,
+tfoot th {
+  font-family: "Rock Salt", cursive;
+}
+
+th {
+  letter-spacing: 2px;
+}
+
+td {
+  letter-spacing: 1px;
+}
+
+tbody td {
+  text-align: center;
+}
+
+th {
+  background-color: lightblue;
+  color: darkblue;
+  font-family: "Courier New";
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  font-family: "Times New Roman";
+}
+
 #start {
   position: absolute;
   width: 834px;
