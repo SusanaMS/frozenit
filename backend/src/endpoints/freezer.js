@@ -7,7 +7,7 @@ import { auth } from "../middleware/auth.js";
 const freezerEndPoint = EndPointRouter({ caseSensitive: true });
 
 // http://localhost:3000/api/v1/freezer/all/
-freezerEndPoint.get("/all/", FreezerController.getAllFreezers);
+freezerEndPoint.get("/all/", auth(), FreezerController.getAllFreezers);
 
 freezerEndPoint.get(
   "/email/:email",
@@ -15,8 +15,13 @@ freezerEndPoint.get(
   FreezerController.getFreezerByUser
 );
 
-freezerEndPoint.post("/add", validateAddFreezer, FreezerController.addFreezer);
+freezerEndPoint.post(
+  "/add",
+  auth(),
+  validateAddFreezer,
+  FreezerController.addFreezer
+);
 
-freezerEndPoint.delete("/id/:id", FreezerController.deleteFreezer);
+freezerEndPoint.delete("/id/:id", auth(), FreezerController.deleteFreezer);
 
 export { freezerEndPoint };

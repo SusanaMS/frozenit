@@ -11,7 +11,7 @@ const userEndPoint = EndPointRouter({ caseSensitive: true });
 // http://localhost:3000/api/v1/users/all/
 userEndPoint.get("/all/", auth(), UserController.getAllUsers);
 // http://localhost:3000/api/v1/users/email/anasus@gmail.com
-userEndPoint.get("/email/:email", UserController.getUserByEmail);
+userEndPoint.get("/email/:email", auth(), UserController.getUserByEmail);
 
 userEndPoint.post("/login", validateLogin, UserController.login);
 
