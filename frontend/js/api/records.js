@@ -14,6 +14,7 @@ const MODEL_ENPOINT = "records",
   recordBox = document.getElementById("recordBox"),
   recordTable = document.getElementById("recordTable"),
   logBox = document.getElementById("logBox"),
+  startBox = document.getElementById("startBox"),
   recordBoxMessage = document.getElementById("recordBoxMessage"),
   recordAdd = document.getElementById("recordAdd"),
   recordBoxAdd = document.getElementById("recordBoxAdd"),
@@ -425,6 +426,7 @@ function processAlertGet(event) {
               endpoint,
               "No hay alimentos próximos a su fecha de caducidad"
             );
+            startBox.style = "display: block";
           }
         }
       } else {
