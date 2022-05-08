@@ -415,7 +415,7 @@ function processAlertGet(event) {
           if (alerts.length) {
             jsonArray2htmlTable(recordTable, alerts, null, [
               "slot",
-              "caduca",
+              "alerta",
               "congelado",
             ]);
           } else {
