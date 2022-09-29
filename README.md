@@ -24,6 +24,6 @@ https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import
 https://dev.to/juliest88/how-to-build-rest-api-with-nodejs-express-and-mysql-31jk
 
 //
-https://event.on24.com/wcc/r/3875907/5093CF966C32522C08BB8090910B88D9
 
-https://event.on24.com/wcc/r/3875909/0CB8665B865D7FEC96DDEBA97A7D54D1
+
+https://event.on24.com/wcc/r/3875840/74B29AE73E958DC046A221480294E2A1
